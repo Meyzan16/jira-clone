@@ -9,7 +9,20 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			Poppins: ["var(--font-Poppins)"],
+			inter: ["var(--font-Josefin"],
+		},
   		colors: {
+			lightGray: '#D3D3D3',
+			purple:'#6842EF',
+			primaryorange: '#FF5722',
+			primaryBlue: "#8873ef",
+			headingcolor: "#081e21",
+			smallTextColor: "#193256",
+			primaryGreen: '#14b8a6',
+			secondaryDefault: '#64748b',
+			dark: '#0f172a',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
