@@ -8,8 +8,8 @@ interface InputProps {
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   id: string;
-  errors: any;
-  touched: any;
+  errors?: string;
+  touched?: boolean;
 }
 
 const Input: FC<InputProps> = ({
