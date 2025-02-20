@@ -4,25 +4,29 @@ const config: Config = {
     darkMode: ["class"],
     content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/componentss/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
-		fontFamily: {
-			Poppins: ["var(--font-Poppins)"],
-			inter: ["var(--font-Josefin"],
-		},
+  		fontFamily: {
+  			Poppins: [
+  				'var(--font-Poppins)'
+  			],
+  			inter: [
+  				'var(--font-Josefin'
+  			]
+  		},
   		colors: {
-			lightGray: '#D3D3D3',
-			purple:'#6842EF',
-			primaryorange: '#FF5722',
-			primaryBlue: "#8873ef",
-			headingcolor: "#081e21",
-			smallTextColor: "#193256",
-			primaryGreen: '#14b8a6',
-			secondaryDefault: '#64748b',
-			dark: '#0f172a',
+  			lightGray: '#D3D3D3',
+  			purple: '#6842EF',
+  			primaryorange: '#FF5722',
+  			primaryBlue: '#8873ef',
+  			headingcolor: '#081e21',
+  			smallTextColor: '#193256',
+  			primaryGreen: '#14b8a6',
+  			secondaryDefault: '#64748b',
+  			dark: '#0f172a',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -62,6 +66,16 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
   		borderRadius: {
