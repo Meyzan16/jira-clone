@@ -13,6 +13,7 @@ import { GlobalContext } from "./context";
 import AlertComponent from "@/components/alert";
 import SelectComponent from "@/components/select";
 import Button from "@/components/button";
+import Skeleton from "@/components/skeleton";
 
 
 const schema = Yup.object().shape({
@@ -110,6 +111,9 @@ const Home = () => {
                 
         </form>
       </div>
+
+      <Skeleton className="w-24 h-24 rounded-full" /> {/* Circle Skeleton */}
+      <Skeleton className="w-full h-8" aria-hidden="true" />
 
     {openAlert.status == true && (
         <AlertComponent />
