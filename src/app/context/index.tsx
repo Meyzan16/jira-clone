@@ -1,10 +1,10 @@
 'use client';
 import React, { createContext, useState } from "react";
 
-interface SidebarState {
-  show: boolean;
-  title: string;
-};
+// interface SidebarState {
+//   show: boolean;
+//   title: string;
+// };
 
 interface AlertState {
   status: boolean;
@@ -12,20 +12,20 @@ interface AlertState {
   severity: string;
 };
 
-interface ComponentAuthState {
-  showModal: boolean;
-  route: string;
-};
+// interface ComponentAuthState {
+//   showModal: boolean;
+//   route: string;
+// };
 
-interface ComponentLoaderState {
-  loading: boolean;
-  id: string;
-};
+// interface ComponentLoaderState {
+//   loading: boolean;
+//   id: string;
+// };
 
-interface Search {
-  show: boolean;
-  title: string;
-}
+// interface Search {
+//   show: boolean;
+//   title: string;
+// }
 
 type ContextType = {
 //   openSidebar: SidebarState;
@@ -52,21 +52,21 @@ export default function GlobalState({
 }: {
   children: React.ReactNode;
 }) {
-  const [showModal, setShowModal] = useState(false);
-  const [openSidebar, setOpenSidebar] = useState<SidebarState>({
-    show: false,
-    title: "",
-  });
+  // const [showModal, setShowModal] = useState(false);
+  // const [openSidebar, setOpenSidebar] = useState<SidebarState>({
+  //   show: false,
+  //   title: "",
+  // });
 
-  const [openSearch, setOpenSearch] = useState<Search>({
-    show: false,
-    title: "",
-  })
+  // const [openSearch, setOpenSearch] = useState<Search>({
+  //   show: false,
+  //   title: "",
+  // })
 
-  const [componentAuth, setComponentAuth] = useState<ComponentAuthState>({
-    showModal: false,
-    route: "",
-  });
+  // const [componentAuth, setComponentAuth] = useState<ComponentAuthState>({
+  //   showModal: false,
+  //   route: "",
+  // });
 
   const [openAlert, setOpenAlert] = useState<AlertState>({
     status: false,
@@ -74,12 +74,12 @@ export default function GlobalState({
     severity: "",
   });
 
-  const [pageLevelLoader, setPageLevelLoader] = useState(false);
+  // const [pageLevelLoader, setPageLevelLoader] = useState(false);
 
-  const [componentLevelLoader, setComponentLevelLoader] = useState<ComponentLoaderState>({
-    loading: false,
-    id: "",
-  });
+  // const [componentLevelLoader, setComponentLevelLoader] = useState<ComponentLoaderState>({
+  //   loading: false,
+  //   id: "",
+  // });
 
   return (
     <GlobalContext.Provider

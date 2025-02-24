@@ -3,7 +3,6 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface InputProps {
   label: string;
-  placeholder: string;
   type: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -15,7 +14,6 @@ interface InputProps {
 const Input: FC<InputProps> = ({
   id,
   label,
-  placeholder,
   type,
   value,
   onChange,
