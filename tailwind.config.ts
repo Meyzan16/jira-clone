@@ -24,7 +24,7 @@ const config: Config = {
   			primaryBlue: '#8873ef',
   			headingcolor: '#081e21',
   			smallTextColor: '#193256',
-  			primaryGreen: '#14b8a6',
+  			primarygreen: '#14b8a6',
   			secondaryDefault: '#64748b',
   			dark: '#0f172a',
   			background: 'hsl(var(--background))',

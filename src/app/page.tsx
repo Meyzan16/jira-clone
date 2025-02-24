@@ -94,7 +94,7 @@ const Home = () => {
                 )}
 
                 <div className="w-full mt-5">
-                <Button variant="default" type="submit" >
+                <Button variant="primary" type="submit" >
 
                  {pageLevelLoader === true ? (
                       <PulseLoader
@@ -114,6 +114,15 @@ const Home = () => {
 
       <Skeleton className="w-24 h-24 rounded-full" /> {/* Circle Skeleton */}
       <Skeleton className="w-full h-8" aria-hidden="true" />
+
+      <div className="flex gap-4">
+            <Button>Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="destructive">destructive</Button>
+            <Button variant="muted">muted</Button>
+            <Button variant="outline">outline</Button>
+            <Button variant="teritrary">teritrary</Button>
+      </div>
 
     {openAlert.status == true && (
         <AlertComponent />
