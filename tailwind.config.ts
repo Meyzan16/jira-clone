@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config: Config = {
     darkMode: ["class"],
@@ -6,17 +7,14 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+	"./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
-  		fontFamily: {
-  			Poppins: [
-  				'var(--font-Poppins)'
-  			],
-  			inter: [
-  				'var(--font-Josefin'
-  			]
-  		},
+		fontFamily: {
+			sans: ["Inter", ...fontFamily.sans],
+			poppins: ["Poppins", "sans-serif"],
+		},
   		colors: {
   			lightGray: '#D3D3D3',
   			purple: '#6842EF',

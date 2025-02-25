@@ -4,16 +4,6 @@ import "./globals.css";
 import AosInit from "@/components/aos";
 import GlobalState from "./context";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <AosInit />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`antialiased min-h-screen`}
       >
         <GlobalState>
           {children}
