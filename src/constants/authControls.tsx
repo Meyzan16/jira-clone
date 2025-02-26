@@ -28,29 +28,29 @@ export const loginFormControls: Props[] = [
         label: 'Password',
         componentType: 'input',
     },
-    {
-        id: 'personalgoal',
-        type: '',
-        placeholder: '',
-        label: 'Personal Goal',
-        componentType: 'select',
-        options: [
-            {
-                id:'notfound',
-                label: 'Pilih-Keahlian',
-            },
-            {
-                id:'fs',
-                label: 'Fullstack Developer',
-            },
-            {
-                id:'be',
-                label: 'Backend Developer',
-            },
-            {
-                id:'fe',
-                label: 'Frontend Developer',
-            },
-        ]
-    },
+    // {
+    //     id: 'personalgoal',
+    //     type: '',
+    //     placeholder: '',
+    //     label: 'Personal Goal',
+    //     componentType: 'select',
+    //     options: [
+    //         {
+    //             id:'notfound',
+    //             label: 'Pilih-Keahlian',
+    //         },
+    //         {
+    //             id:'fs',
+    //             label: 'Fullstack Developer',
+    //         },
+    //         {
+    //             id:'be',
+    //             label: 'Backend Developer',
+    //         },
+    //         {
+    //             id:'fe',
+    //             label: 'Frontend Developer',
+    //         },
+    //     ]
+    // },
 ];
