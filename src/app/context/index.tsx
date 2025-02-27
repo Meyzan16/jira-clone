@@ -36,10 +36,10 @@ type ContextType = {
 //   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 //   componentLevelLoader: ComponentLoaderState;
 //   setComponentLevelLoader: React.Dispatch<React.SetStateAction<ComponentLoaderState>>;
-//   pageLevelLoader: boolean;
-//   setPageLevelLoader: React.Dispatch<React.SetStateAction<boolean>>;
 // openSearch: Search;
 // setOpenSearch: React.Dispatch<React.SetStateAction<Search>>;
+  pageLevelLoader: boolean;
+  setPageLevelLoader: React.Dispatch<React.SetStateAction<boolean>>;
   openAlert: AlertState;
   setOpenAlert: React.Dispatch<React.SetStateAction<AlertState>>;
 
@@ -74,7 +74,7 @@ export default function GlobalState({
     severity: "",
   });
 
-  // const [pageLevelLoader, setPageLevelLoader] = useState(false);
+  const [pageLevelLoader, setPageLevelLoader] = useState(false);
 
   // const [componentLevelLoader, setComponentLevelLoader] = useState<ComponentLoaderState>({
   //   loading: false,
@@ -85,7 +85,9 @@ export default function GlobalState({
     <GlobalContext.Provider
       value={{
         openAlert,
-        setOpenAlert
+        setOpenAlert,
+        pageLevelLoader,
+        setPageLevelLoader
       }}
     >
       {children}

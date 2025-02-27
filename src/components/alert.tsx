@@ -28,21 +28,27 @@ const AlertComponent = () => {
         setIsVisible(false); // Sembunyikan alert setelah 5 detik
         setTimeout(() => {
           setOpenAlert({ status: false, message: "", severity: "" });
-        }, 300); // Delay sebelum menghapus data agar animasi smooth
-      }, 5000);
+        }, 1000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [openAlert.status, setOpenAlert]);
 
   if (!openAlert.status) return null;
+
+  console.log('open alert end', openAlert.status)
+  
+  
   return (
     <div
-      className={`fixed left-1/2 top-0 transform -translate-x-1/2 w-auto px-6 py-3 rounded-full flex items-center shadow-lg transition-all duration-300 ${
-        isVisible ? "translate-y-20 opacity-100" : "-translate-y-full opacity-0"
-      } ${severityStyles[openAlert.severity]}`}
+      className={`w-[400px] md:w-auto  fixed left-1/2 top-0 transform -translate-x-1/2  px-6 py-3 rounded-full 
+        shadow-lg transition-all duration-300 
+        ${ isVisible ? "translate-y-20 opacity-100" : "-translate-y-full opacity-0"} 
+        ${severityStyles[openAlert.severity]}`
+      }
       data-severity={openAlert.severity}
     >
-      <div className="flex gap-4 items-center justify-center">
+      <div className="flex gap-4 items-center justify-between">
         <span className="mr-2">{severityIcons[openAlert.severity]}</span>
         <span className="font-Poppins">{openAlert.message}</span>
         <button
