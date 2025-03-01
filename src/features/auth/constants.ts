@@ -1,0 +1,1 @@
+export const AUTH_COOKIE = "biovoyej-jira-clone-session"

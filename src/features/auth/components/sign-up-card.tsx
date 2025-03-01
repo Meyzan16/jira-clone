@@ -14,7 +14,6 @@ import {
 import DottedSeparator from "@/components/ui/dotted-separator";
 import Button from "@/components/ui/button";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { GlobalContext } from "@/app/context";
 import { signUpFormControls } from "@/constants/authControls";
 import Input from "@/components/ui/input";
@@ -22,12 +21,15 @@ import Link from "next/link";
 import CircleLoader from "@/components/ui/circleloader";
 import { z } from "zod";
 import { signUpSchema } from "../schema";
+import { useRegister } from "../api/use-register";
 
 
 
 const SignUpCard = () => {
   const { openAlert, setOpenAlert, pageLevelLoader, setPageLevelLoader } =
     useContext(GlobalContext)!;
+
+  const {mutate} = useRegister();
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +40,7 @@ const SignUpCard = () => {
     validate: (values) => {
       const result = signUpSchema.safeParse(values);
       if (!result.success) {
-        return result.error.flatten().fieldErrors; // Konversi error agar kompatibel dengan Formik
+        return result.error.flatten().fieldErrors; // Konversi error
       }
       return {};
     },
@@ -50,7 +52,17 @@ const SignUpCard = () => {
         severity: "success",
       });
 
-      console.log("Form Data:", values);
+      mutate(
+        { json: values },
+        {
+          onSuccess: (data) => {
+            console.log("Form Data server:", data); // Response dari server
+          },
+          onError: (error) => {
+            console.error("Login Failed:", error);
+          },
+        }
+      );
 
       setTimeout(() => {
         setPageLevelLoader(false);
