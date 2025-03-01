@@ -1,19 +1,19 @@
 'use client';
 
 
-import { Badge } from "@/components/badge";
-import CircleLoader from "@/components/circleloader";
-import Input from "@/components/input";
-import PulseLoader from "@/components/pulseloader";
+import { Badge } from "@/components/ui/badge";
+import CircleLoader from "@/components/ui/circleloader";
+import Input from "@/components/ui/input";
+import PulseLoader from "@/components/ui/pulseloader";
 import { loginFormControls } from "@/constants/authControls";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
 import * as Yup from "yup";
 import { GlobalContext } from "./context";
-import AlertComponent from "@/components/alert";
-import SelectComponent from "@/components/select";
-import Button from "@/components/button";
-import Skeleton from "@/components/skeleton";
+import AlertComponent from "@/components/ui/alert";
+import SelectComponent from "@/components/ui/select";
+import Button from "@/components/ui/button";
+import Skeleton from "@/components/ui/skeleton";
 
 
 const schema = Yup.object().shape({

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import AosInit from "@/components/aos";
+import AosInit from "@/components/ui/aos";
 import GlobalState from "./context";
+import {QueryProviders} from "@/components/query-provider";
+
 
 
 export const metadata: Metadata = {
@@ -22,7 +24,9 @@ export default function RootLayout({
         className={`antialiased min-h-screen`}
       >
         <GlobalState>
-          {children}
+          <QueryProviders>
+            {children}
+          </QueryProviders>
         </GlobalState>
       </body>
     </html>
