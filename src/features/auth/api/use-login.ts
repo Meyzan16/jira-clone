@@ -14,12 +14,8 @@ export const useLogin = () => {
       if (!response || !response.ok) {
         throw new Error("Invalid response from server");
       }
-
-      try {
-        return await response.json();
-      } catch (error) {
-        throw new Error("Failed to parse response JSON");
-      }
+      
+      return await response.json();
     },
   });
 

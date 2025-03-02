@@ -3,7 +3,9 @@ import { InferRequestType, InferResponseType } from "hono";
 
 import { client } from "@/lib/rpc";
 
-type ResponseType = InferResponseType<(typeof client.api.auth.register)["$post"]>;
+type ResponseType = InferResponseType<
+  (typeof client.api.auth.register)["$post"]
+>;
 type RequestType = InferRequestType<(typeof client.api.auth.register)["$post"]>;
 
 export const useRegister = () => {
@@ -15,11 +17,7 @@ export const useRegister = () => {
         throw new Error("Invalid response from server");
       }
 
-      try {
-        return await response.json();
-      } catch (error) {
-        throw new Error("Failed to parse response JSON");
-      }
+      return await response.json();
     },
   });
 
