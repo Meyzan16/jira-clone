@@ -56,7 +56,7 @@ const SignUpCard = () => {
         { json: values },
         {
           onSuccess: (data) => {
-            console.log("Form Data server:", data); // Response dari server
+            console.log("Form Data server:", data); 
           },
           onError: (error) => {
             console.error("Login Failed:", error);

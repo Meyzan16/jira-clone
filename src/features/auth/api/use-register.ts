@@ -12,11 +12,6 @@ export const useRegister = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.register["$post"]({ json });
-
-      if (!response || !response.ok) {
-        throw new Error("Invalid response from server");
-      }
-
       return await response.json();
     },
   });

@@ -39,9 +39,9 @@ const app = new Hono()
         maxAge: 60 * 60 * 24 * 7,
       });
 
-      return c.json({ success: true });
+      return c.json({ status: true, message: "login success" } , 200);
     } catch (error) {
-      return c.json({ message: `Internal Server Error ${error}` }, 500);
+      return c.json({ status: false, message: `${error}` }, 500);
     }
   })
   .post("/register", zValidator("json", signUpSchema), async (c) => {
@@ -61,7 +61,7 @@ const app = new Hono()
         maxAge: 60 * 60 * 24 * 7,
       });
 
-      return c.json({ success: true });
+      return c.json({ success: true },200);
     } catch (error) {
       return c.json({ message: `Internal Server Error ${error}` }, 500);
     }
@@ -73,7 +73,7 @@ const app = new Hono()
       deleteCookie(c, AUTH_COOKIE);
       await account.deleteSession("current");
 
-      return c.json({ success: true });
+      return c.json({ success: true }, 200);
     } catch (error) {
       return c.json({ message: `Internal Server Error ${error}` }, 500);
     }

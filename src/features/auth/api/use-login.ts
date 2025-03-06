@@ -10,11 +10,6 @@ export const useLogin = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.login["$post"]({ json });
-
-      if (!response || !response.ok) {
-        throw new Error("Invalid response from server");
-      }
-      
       return await response.json();
     },
   });

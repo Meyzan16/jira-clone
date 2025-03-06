@@ -16,9 +16,12 @@ import Link from "next/link";
 import CircleLoader from "@/components/ui/circleloader";
 import { signInSchema } from "../schema";
 import { useLogin } from "../api/use-login";
+import { redirect, useRouter } from "next/navigation";
 
 const SignInCard = () => {
+  const router = useRouter();
   const {mutate} = useLogin();
+
   const { openAlert, setOpenAlert, pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const formik = useFormik({
@@ -35,29 +38,30 @@ const SignInCard = () => {
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-      setOpenAlert({
-        status: true,
-        message: "Login Berhasil",
-        severity: "success",
-      });
-
       mutate(
         { json: values },
         {
           onSuccess: (data) => {
-            console.log("Form Data server:", data); // Response dari server
+            setOpenAlert({
+              status: true,
+              message: data.message || "Login berhasil",
+              severity: "success",
+            });
+            router.push("/");
           },
           onError: (error) => {
+            setOpenAlert({
+              status: true,
+              message: error.message || "Login failed",
+              severity: "error",
+            });
             console.error("Login Failed:", error);
+          },
+          onSettled: () => {
+            setPageLevelLoader(false);
           },
         }
       );
-
-      setTimeout(() => {
-        setPageLevelLoader(false); // Loader berhent
-      }, 1000);
-
-      console.log("open alert end", openAlert.status);
     },
   });
 
