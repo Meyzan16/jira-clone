@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <AosInit />
       <body
-        className={`antialiased min-h-screen`}
+        className={`antialiased min-h-screen font-poppins`}
       >
         <GlobalState>
           <QueryProviders>

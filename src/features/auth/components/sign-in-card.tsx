@@ -22,7 +22,7 @@ const SignInCard = () => {
   const router = useRouter();
   const {mutate} = useLogin();
 
-  const { openAlert, setOpenAlert, pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
+  const { setOpenAlert, pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const formik = useFormik({
     initialValues: {

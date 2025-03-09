@@ -10,9 +10,19 @@ const config: Config = {
 	"./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+	screens: {
+		xs: "480px",
+		sm: "640px",
+		md: "768px",
+		lg: "1024px",
+		xl: "1280px",
+		"2xl": "1536px",
+	},
   	extend: {
 		fontFamily: {
-			sans: ["Inter", ...fontFamily.sans],
+			sans: ["Inter", "sans-serif"],
+			serif: ["Merriweather", "serif"],
+			mono: ["Fira Code", "monospace"],
 			poppins: ["Poppins", "sans-serif"],
 		},
   		colors: {

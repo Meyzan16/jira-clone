@@ -29,7 +29,7 @@ const AlertComponent = () => {
         setTimeout(() => {
           setOpenAlert({ status: false, message: "", severity: "" });
         }, 1000);
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [openAlert.status, setOpenAlert]);

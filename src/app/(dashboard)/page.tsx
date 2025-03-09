@@ -5,14 +5,11 @@ import { getCurrent } from "@/features/auth/actions";
 const Home = async () => {
   const user = await  getCurrent();
 
-  console.log({user});
-
   if(!user) redirect("/sign-in");
 
-
   return (
-    <div className="my-8">
-      <UserButton />
+    <div>
+      This is a home page
     </div>
   );
 };
