@@ -13,10 +13,17 @@ import { useLogout } from "../api/use-logout";
 import { useCurrent } from "../api/use-current";
 import CircleLoader from "@/components/ui/circleloader";
 import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const UserButton = () => {
+  const router = useRouter();
   const { data: user, isLoading } = useCurrent();
-  const {mutate: logout} = useLogout();
+  const { mutate: logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/sign-in");
+  };
 
   if (isLoading) {
     return (
@@ -46,28 +53,32 @@ const UserButton = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" side="bottom" className="w-60" sideOffset={10}>
+      <DropdownMenuContent
+        align="end"
+        side="bottom"
+        className="w-60"
+        sideOffset={10}
+      >
         <div className="flex flex-col items-center justify-center gap-2 px-2.5 py-4">
-        <Avatar className="size-[52px]  border border-neutral-300">
-          <AvatarFallback className="bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center">
-            {avatarFallback}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col items-center justify-center ">
-          <p className="text-sm font-medium text-neutral-900">
-            {name || "user"}
-          </p>
-          <p className="text-xs text-neutral-500">
-            {email}
-          </p>
-        </div>
+          <Avatar className="size-[52px]  border border-neutral-300">
+            <AvatarFallback className="bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center">
+              {avatarFallback}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col items-center justify-center ">
+            <p className="text-sm font-medium text-neutral-900">
+              {name || "user"}
+            </p>
+            <p className="text-xs text-neutral-500">{email}</p>
+          </div>
         </div>
         <DottedSeparator className="mb-1" />
         <DropdownMenuItem
-          onClick={() => logout()}
-          className="h-10 flex items-center justify-center text-amber-700 font-medium cursor-pointer">
-            <LogOut  className="size-4 mr-2"/>
-            Log Out
+          onClick={handleLogout}
+          className="h-10 flex items-center justify-center text-amber-700 font-medium cursor-pointer"
+        >
+          <LogOut className="size-4 mr-2" />
+          Log Out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
