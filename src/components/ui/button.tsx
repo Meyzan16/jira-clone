@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -6,7 +8,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg" | "icon";
 }
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   className,
   variant = "primary",
   size = "md",
@@ -18,9 +20,9 @@ const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary: "bg-primarygreen text-white text-primary-foreground",
-    destructive: "bg-primaryorange text-white hover:bg-red-700",
+    destructive: "bg-primaryorange text-white text-primary-foreground",
     outline: "border border-gray-300 bg-white text-gray-700 hover:bg-gray-100",
-    secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
+    secondary: "bg-gray-200 text-dark hover:bg-gray-300",
     muted: "bg-neutral-200 text-neutral-600 hover:bg-neutral-200/80",
     teritrary: "bg-blue-200 text-blue-600 border-transparent shadow-none",
   };
@@ -41,5 +43,3 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-
-export default Button;

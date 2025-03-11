@@ -1,7 +1,7 @@
 "use client";
 
 import AlertComponent from "@/components/ui/alert";
-import Button from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { GlobalContext } from "../context";

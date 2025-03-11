@@ -6,7 +6,7 @@ import { FaGithub } from "react-icons/fa";
 import React, { useContext, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DottedSeparator from "@/components/ui/dotted-separator";
-import Button from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { GlobalContext } from "@/app/context";
