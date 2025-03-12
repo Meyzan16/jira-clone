@@ -16,7 +16,7 @@ import Link from "next/link";
 import CircleLoader from "@/components/ui/circleloader";
 import { signInSchema } from "../schema";
 import { useLogin } from "../api/use-login";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignInCard = () => {
   const router = useRouter();

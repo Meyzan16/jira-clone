@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import UserButton from "@/features/auth/components/user-button";
 import { getCurrent } from "@/features/auth/actions";
+import { CreateWorkSpaceForm } from "@/features/workspaces/components/create-workspace-form";
 
 const Home = async () => {
   const user = await  getCurrent();
@@ -8,8 +9,8 @@ const Home = async () => {
   if(!user) redirect("/sign-in");
 
   return (
-    <div>
-      This is a home page
+    <div className="bg-neutral-200 p-4 h-full rounded-xl">
+      <CreateWorkSpaceForm />
     </div>
   );
 };
