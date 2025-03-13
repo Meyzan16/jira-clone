@@ -39,28 +39,7 @@ const SignInCard = () => {
     onSubmit: (values) => {
       setPageLevelLoader(true);
       mutate(
-        { json: values },
-        {
-          onSuccess: (data) => {
-            setOpenAlert({
-              status: true,
-              message: data.message || "Login berhasil",
-              severity: "success",
-            });
-            router.push("/");
-          },
-          onError: (error) => {
-            setOpenAlert({
-              status: true,
-              message: error.message || "Login failed",
-              severity: "error",
-            });
-            console.error("Login Failed:", error);
-          },
-          onSettled: () => {
-            setPageLevelLoader(false);
-          },
-        }
+        { json: values }
       );
     },
   });
@@ -97,7 +76,7 @@ const SignInCard = () => {
           )}
 
           <div className="flex flex-col mt-5">
-            <Button variant="primary" type="submit">
+            <Button size="lg" variant="primary" type="submit">
               {pageLevelLoader === true ? (
                 <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
               ) : (

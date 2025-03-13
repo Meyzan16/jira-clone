@@ -46,29 +46,9 @@ const SignUpCard = () => {
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-      setOpenAlert({
-        status: true,
-        message: "Login Berhasil",
-        severity: "success",
-      });
-
       mutate(
-        { json: values },
-        {
-          onSuccess: (data) => {
-            console.log("Form Data server:", data); 
-          },
-          onError: (error) => {
-            console.error("Login Failed:", error);
-          },
-        }
+        { json: values }
       );
-
-      setTimeout(() => {
-        setPageLevelLoader(false);
-      }, 1000);
-
-      console.log("open alert end", openAlert.status);
     },
   });
 
@@ -118,11 +98,11 @@ const SignUpCard = () => {
           )}
 
           <div className="flex flex-col mt-5">
-            <Button variant="primary" type="submit">
+            <Button size="lg" variant="primary" type="submit">
               {pageLevelLoader === true ? (
                 <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
               ) : (
-                "Login"
+                "Register"
               )}
             </Button>
           </div>

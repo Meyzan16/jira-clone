@@ -9,7 +9,7 @@ interface Props {
   size?: number; 
 }
 
-const CircleLoader: FC<Props> = ({ text, color, loading, size = 40 }) => {
+const CircleLoader: FC<Props> = ({ text, color, loading, size = 30 }) => {
   if (!loading) return null;
 
   return (

@@ -35,27 +35,7 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     onSubmit: (values) => {
       setPageLevelLoader(true);
       mutate(
-        { json: values },
-        {
-          onSuccess: (data) => {
-            setOpenAlert({
-              status: true,
-              message: "workspace created",
-              severity: "success",
-            });
-          },
-          onError: (error) => {
-            setOpenAlert({
-              status: true,
-              message: error.message || "created workspace failed",
-              severity: "error",
-            });
-            console.error("Login Failed:", error);
-          },
-          onSettled: () => {
-            setPageLevelLoader(false);
-          },
-        }
+        { json: values }
       );
     },
   });
