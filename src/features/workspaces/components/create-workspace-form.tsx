@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormik } from "formik";
+import {useRef} from "react";
 import { createWorkSpaceSchema } from "../schemas";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
@@ -11,6 +12,11 @@ import Input from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/ui/circleloader";
 import { useCreateWorkspace } from "../api/use-create-workspace";
+import Image from "next/image";
+
+import { ImageIcon } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import UploadImage from "@/components/ui/uploadImage";
 
 interface createWorkSpaceFromProps {
   onCancel?: () => void;
@@ -21,9 +27,13 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     useContext(GlobalContext)!;
   const { mutate } = useCreateWorkspace();
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+
   const formik = useFormik({
     initialValues: {
       name: "",
+      image: "",
     },
     validate: (values) => {
       const result = createWorkSpaceSchema.safeParse(values);
@@ -34,11 +44,17 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-      mutate(
-        { json: values }
-      );
+      // const finalValues = {
+      //   ...values,
+      //   image: values.image && values.image instanceof File ? values.image : undefined,
+      // };
+      console.log(values);
+      
+      mutate({ form: values });
     },
   });
+
+
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
@@ -70,7 +86,15 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
                 }
                 touched={touched[item.id as keyof typeof values]}
               />
-            ) : null
+            ) : item.componentType === "file" ? (
+                  <UploadImage
+                  key={index}
+                  id={item.id}
+                  label={item.label}
+                  value={values[item.id as keyof typeof values] as File | string | null}
+                  onChange={(file) => formik.setFieldValue(item.id, file)}
+                />
+            ): null
           )}
 
           <DottedSeparator />

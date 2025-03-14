@@ -17,6 +17,11 @@ export const useLogin = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ json }) => {
       const response = await client.api.auth.login["$post"]({ json });
+
+      if(!response.ok){
+        throw new Error ("Failed to login")
+      }
+
       return await response.json();
     },
     onSuccess: (data) => {
@@ -25,8 +30,10 @@ export const useLogin = () => {
         message: data.message || "Login berhasil",
         severity: "success",
       });
-      router.push("/");
-      queryClient.invalidateQueries({ queryKey: ["current"] });
+      setTimeout(() => {
+        router.push("/");
+        queryClient.invalidateQueries({ queryKey: ["current"] });
+      },1000)
     },
     onError: (error) => {
       setOpenAlert({
@@ -34,7 +41,6 @@ export const useLogin = () => {
         message: error.message || "Login failed",
         severity: "error",
       });
-      console.error("Login Failed:", error);
     },
     onSettled: () => {
       setPageLevelLoader(false);

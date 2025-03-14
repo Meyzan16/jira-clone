@@ -8,13 +8,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg" | "icon";
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  className,
-  variant = "primary",
-  size = "md",
-  children,
-  ...props //digunakan untuk atribut tambahan
-}) => {
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = "primary", size = "md", children, ...props }, ref) => {
+
   const baseClasses =
     " inline-flex items-center font-Poppins justify-center gap-2 rounded-2xl font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:bg-neutral-100 disabled:from-neutral-100 disabled:to-neutral-100 disabled:text-neutral-300 border border-neutral-200 shadow-sm ";
 
@@ -36,10 +32,11 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      ref={ref} 
       className={twMerge(baseClasses, variantClasses[variant], sizeClasses[size], className)}
       {...props}
     >
       {children}
     </button>
   );
-};
+});

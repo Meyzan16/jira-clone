@@ -41,7 +41,7 @@ const app = new Hono()
 
       return c.json({ status: true, message: "login success" } , 200);
     } catch (error) {
-      return c.json({ status: false, message: `${error}` }, 500);
+      return c.json({ status: false, message: `${error}` }, 400);
     }
   })
   .post("/register", zValidator("json", signUpSchema), async (c) => {

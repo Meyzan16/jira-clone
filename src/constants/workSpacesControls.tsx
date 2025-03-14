@@ -21,4 +21,11 @@ export const createWorkSpaceControls: Props[] = [
         label: 'Name Workspace',
         componentType: 'input',
     },
+    {
+        id: 'image',
+        type: 'file',
+        placeholder: 'Enter your image',
+        label: 'Pilih image ',
+        componentType: 'file',
+    },
 ]
