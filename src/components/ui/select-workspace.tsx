@@ -1,6 +1,7 @@
 "use client";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp, Check } from "lucide-react";
+import { WorkspaceAvatar } from "@/features/workspaces/components/workspace-avatar";
 
 // Context buat handle shared state antar komponen
 const SelectContext = React.createContext<any>(null);
@@ -11,9 +12,29 @@ export const SelectWorkspace = ({
   value,
   defaultValue,
   onValueChange,
+  items = [],
 }: any) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(value ?? defaultValue ?? null); // selected = { value, label }
+
+  // Update selected value if value prop changes
+  useEffect(() => {
+    if (value && items.length) {
+      const match = items.find((item: any) => item.$id === value);
+      if (match) {
+        setSelected({
+          value: match.$id,
+          label: (
+            <div className="flex justify-start items-center gap-3 font-medium">
+              <WorkspaceAvatar name={match.name} image={match.imageUrl} />
+              <span className="truncate">{match.name}</span>
+            </div>
+          ),
+        });
+      }
+    }
+  }, [value, items]);
+
 
   const handleChange = (val: { value: string; label: React.ReactNode }) => {
     setSelected(val);
