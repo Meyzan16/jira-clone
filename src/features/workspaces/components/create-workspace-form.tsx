@@ -27,9 +27,6 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     useContext(GlobalContext)!;
   const { mutate } = useCreateWorkspace();
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -44,13 +41,14 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-      // const finalValues = {
-      //   ...values,
-      //   image: values.image && values.image instanceof File ? values.image : undefined,
-      // };
       console.log(values);
       
-      mutate({ form: values });
+      mutate({ form: values }, {
+        onSuccess:() => {
+          formik.resetForm();
+          //TODO: redirecting  to new workspace
+        }
+      });
     },
   });
 

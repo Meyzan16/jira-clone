@@ -31,7 +31,7 @@ export const useLogin = () => {
         severity: "success",
       });
       setTimeout(() => {
-        router.push("/");
+        router.refresh()
         queryClient.invalidateQueries({ queryKey: ["current"] });
       },1000)
     },

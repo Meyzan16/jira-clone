@@ -36,7 +36,6 @@ export const useCreateWorkspace = () => {
         message: error.message || "created workspace failed",
         severity: "error",
       });
-      console.error("Login Failed:", error);
     },
     onSettled: () => {
       setPageLevelLoader(false);
