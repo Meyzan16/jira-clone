@@ -36,7 +36,7 @@ export const SelectTrigger = ({ className = "", children }: any) => {
   return (
     <button
       onClick={() => setOpen((prev: boolean) => !prev)}
-      className={`flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black shadow-sm focus:outline-none ${className}`}
+      className={`flex h-12 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-transparent placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-transparent disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${className}`}
     >
       {children}
       {open ? (

@@ -32,6 +32,7 @@ export const useLogout = () => {
       setTimeout(() => {
         router.refresh();
         queryClient.invalidateQueries({ queryKey: ["current"] });
+        queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       },1000)
     },
     onError: (error) => {
