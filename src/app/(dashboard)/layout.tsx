@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/sidebar";
 import { useContext } from "react";
 import { GlobalContext } from "../context";
 import AlertComponent from "@/components/ui/alert";
+import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-moda";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -15,6 +16,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <div className="min-h-screen">
+      <CreateWorkspaceModal />
       <div className="flex w-full">
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
           <Sidebar />
