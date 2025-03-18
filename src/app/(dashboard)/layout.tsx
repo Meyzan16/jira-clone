@@ -5,7 +5,7 @@ import { Sidebar } from "@/components/sidebar";
 import { useContext } from "react";
 import { GlobalContext } from "../context";
 import AlertComponent from "@/components/ui/alert";
-import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-moda";
+import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
