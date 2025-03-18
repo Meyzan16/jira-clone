@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useRef } from "react";
-import { X } from "lucide-react";
 
 // Context
 const DrawerContext = createContext<any>(null);
@@ -95,7 +94,7 @@ export const DrawerClose = ({
       onClick={() => onOpenChange(false)}
       className="absolute right-4 top-4 rounded opacity-70 hover:opacity-100"
     >
-      {children ?? <X className="h-4 w-4" />}
+      {children ?? <span className="h-4 w-4"> X </span>}
     </button>
   );
 };
