@@ -1,3 +1,5 @@
+import "server-only";
+
 import { cookies } from "next/headers";
 import { Databases, Client, Query, Account } from "node-appwrite";
 import { AUTH_COOKIE } from "@/features/auth/constants";
@@ -35,7 +37,7 @@ export const getWorkspaces = async () => {
     );
 
     return workspaces;
-  } catch (e) {
+  } catch {
     return { documents: [], total: 0 };
   }
 };

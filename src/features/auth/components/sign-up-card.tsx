@@ -19,14 +19,13 @@ import { signUpFormControls } from "@/constants/authControls";
 import Input from "@/components/ui/input";
 import Link from "next/link";
 import CircleLoader from "@/components/ui/circleloader";
-import { z } from "zod";
 import { signUpSchema } from "../schema";
 import { useRegister } from "../api/use-register";
 
 
 
 const SignUpCard = () => {
-  const { openAlert, setOpenAlert, pageLevelLoader, setPageLevelLoader } =
+  const { pageLevelLoader, setPageLevelLoader } =
     useContext(GlobalContext)!;
 
   const {mutate} = useRegister();

@@ -40,3 +40,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     </button>
   );
 });
+
+// ✅ Tambahkan displayName untuk menghindari warning
+Button.displayName = "Button";

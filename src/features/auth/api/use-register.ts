@@ -26,7 +26,7 @@ export const useRegister = () => {
 
       return await response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       setOpenAlert({
         status: true,
         message: "Register successfully",

@@ -1,10 +1,21 @@
 "use client";
-import React, { useState, useContext, useRef, useEffect, createContext } from "react";
+import React, { useContext, useRef, useEffect, createContext } from "react";
 import { X } from "lucide-react";
 
-const DialogContext = createContext<any>(null);
+interface DialogContextValue {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
-export const Dialog = ({ children, open, onOpenChange }: any) => {
+const DialogContext = createContext<DialogContextValue | null>(null);
+
+interface DialogProps {
+  children: React.ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export const Dialog = ({ children, open, onOpenChange }: DialogProps) => {
   return (
     <DialogContext.Provider value={{ open, onOpenChange }}>
       {children}
@@ -13,33 +24,29 @@ export const Dialog = ({ children, open, onOpenChange }: any) => {
 };
 
 export const DialogTrigger = ({ children }: { children: React.ReactNode }) => {
-  const { onOpenChange } = useContext(DialogContext);
-  return (
-    <button onClick={() => onOpenChange(true)}>
-      {children}
-    </button>
-  );
+  const context = useContext(DialogContext);
+  if (!context) throw new Error("DialogTrigger must be used within a Dialog");
+  const { onOpenChange } = context;
+  return <button onClick={() => onOpenChange(true)}>{children}</button>;
 };
 
 export const DialogOverlay = ({ className = "" }: { className?: string }) => {
   return (
-    <div
-      className={`fixed inset-0 z-50 bg-black/80 transition-opacity ${className}`}
-    />
+    <div className={`fixed inset-0 z-50 bg-black/80 transition-opacity ${className}`} />
   );
 };
 
-export const DialogContent = ({
-  className = "",
-  children,
-}: {
+interface DialogContentProps {
   className?: string;
   children: React.ReactNode;
-}) => {
-  const { open, onOpenChange } = useContext(DialogContext);
+}
+
+export const DialogContent = ({ className = "", children }: DialogContentProps) => {
+  const context = useContext(DialogContext);
+  if (!context) throw new Error("DialogContent must be used within a Dialog");
+  const { open, onOpenChange } = context;
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Close on ESC
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onOpenChange(false);
@@ -48,7 +55,6 @@ export const DialogContent = ({
     return () => document.removeEventListener("keydown", handleKey);
   }, [open, onOpenChange]);
 
-  // Close on click outside
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
@@ -76,7 +82,10 @@ export const DialogContent = ({
 };
 
 export const DialogClose = () => {
-  const { onOpenChange } = useContext(DialogContext);
+  const context = useContext(DialogContext);
+  if (!context) throw new Error("DialogClose must be used within a Dialog");
+  const { onOpenChange } = context;
+
   return (
     <button
       onClick={() => onOpenChange(false)}
@@ -88,18 +97,30 @@ export const DialogClose = () => {
   );
 };
 
-export const DialogHeader = ({ className = "", ...props }: any) => (
+export const DialogHeader = ({
+  className = "",
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={`flex flex-col space-y-1.5 text-center sm:text-left ${className}`} {...props} />
 );
 
-export const DialogFooter = ({ className = "", ...props }: any) => (
+export const DialogFooter = ({
+  className = "",
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 ${className}`} {...props} />
 );
 
-export const DialogTitle = ({ className = "", ...props }: any) => (
+export const DialogTitle = ({
+  className = "",
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <h2 className={`text-lg font-semibold leading-none tracking-tight ${className}`} {...props} />
 );
 
-export const DialogDescription = ({ className = "", ...props }: any) => (
+export const DialogDescription = ({
+  className = "",
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) => (
   <p className={`text-sm text-gray-500 ${className}`} {...props} />
 );

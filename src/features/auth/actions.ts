@@ -1,3 +1,5 @@
+import "server-only";
+
 import { cookies } from "next/headers"
 import { Account, Client } from "node-appwrite"
 import { AUTH_COOKIE } from "./constants"
@@ -18,7 +20,7 @@ export const getCurrent = async () => {
         const account = new Account(client);
     
         return await account.get();
-    }catch(e){
+    }catch {
         return null;
     }
 

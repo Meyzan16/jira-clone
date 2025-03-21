@@ -2,19 +2,22 @@
 
 import React, { createContext, useContext, useEffect, useRef } from "react";
 
-// Context
-const DrawerContext = createContext<any>(null);
+// Buat interface untuk context value
+interface DrawerContextValue {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const DrawerContext = createContext<DrawerContextValue | null>(null);
 
 // Root Drawer
-export const Drawer = ({
-  children,
-  open,
-  onOpenChange,
-}: {
+interface DrawerProps {
   children: React.ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}) => {
+}
+
+export const Drawer = ({ children, open, onOpenChange }: DrawerProps) => {
   return (
     <DrawerContext.Provider value={{ open, onOpenChange }}>
       {children}
@@ -24,7 +27,9 @@ export const Drawer = ({
 
 // Trigger
 export const DrawerTrigger = ({ children }: { children: React.ReactNode }) => {
-  const { onOpenChange } = useContext(DrawerContext);
+  const context = useContext(DrawerContext);
+  if (!context) throw new Error("DrawerTrigger must be used within Drawer");
+  const { onOpenChange } = context;
   return <div onClick={() => onOpenChange(true)}>{children}</div>;
 };
 
@@ -34,17 +39,17 @@ export const DrawerOverlay = ({ className = "" }: { className?: string }) => (
 );
 
 // Content
-export const DrawerContent = ({
-  children,
-  className = "",
-}: {
+interface DrawerContentProps {
   children: React.ReactNode;
   className?: string;
-}) => {
-  const { open, onOpenChange } = useContext(DrawerContext);
+}
+
+export const DrawerContent = ({ children, className = "" }: DrawerContentProps) => {
+  const context = useContext(DrawerContext);
+  if (!context) throw new Error("DrawerContent must be used within Drawer");
+  const { open, onOpenChange } = context;
   const ref = useRef<HTMLDivElement>(null);
 
-  // ESC close
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onOpenChange(false);
@@ -53,7 +58,6 @@ export const DrawerContent = ({
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onOpenChange]);
 
-  // Outside click close
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -83,12 +87,10 @@ export const DrawerContent = ({
 };
 
 // Close button
-export const DrawerClose = ({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => {
-  const { onOpenChange } = useContext(DrawerContext);
+export const DrawerClose = ({ children }: { children?: React.ReactNode }) => {
+  const context = useContext(DrawerContext);
+  if (!context) throw new Error("DrawerClose must be used within Drawer");
+  const { onOpenChange } = context;
   return (
     <button
       onClick={() => onOpenChange(false)}
@@ -100,51 +102,32 @@ export const DrawerClose = ({
 };
 
 // Header
-export const DrawerHeader = ({
-  children,
-  className = "",
-}: {
+interface DrawerSectionProps {
   children: React.ReactNode;
   className?: string;
-}) => (
+}
+
+export const DrawerHeader = ({ children, className = "" }: DrawerSectionProps) => (
   <div className={`grid gap-1.5 p-4 text-center sm:text-left ${className}`}>
     {children}
   </div>
 );
 
 // Footer
-export const DrawerFooter = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => (
+export const DrawerFooter = ({ children, className = "" }: DrawerSectionProps) => (
   <div className={`mt-auto flex flex-col gap-2 p-4 ${className}`}>
     {children}
   </div>
 );
 
 // Title
-export const DrawerTitle = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => (
+export const DrawerTitle = ({ children, className = "" }: DrawerSectionProps) => (
   <h2 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>
     {children}
   </h2>
 );
 
 // Description
-export const DrawerDescription = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => (
+export const DrawerDescription = ({ children, className = "" }: DrawerSectionProps) => (
   <p className={`text-sm text-muted-foreground ${className}`}>{children}</p>
 );

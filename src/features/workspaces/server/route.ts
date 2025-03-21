@@ -1,3 +1,5 @@
+import "server-only";
+
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { createWorkSpaceSchema } from "../schemas";

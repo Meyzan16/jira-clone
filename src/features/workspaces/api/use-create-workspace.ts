@@ -1,12 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { InferRequestType, InferResponseType } from "hono";
+import { InferRequestType } from "hono";
 
 import { client } from "@/lib/rpc";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
+import type { WorkspaceResponse } from "../interface"
 
-type ResponseType = InferResponseType<(typeof client.api.workspaces)["$post"]>;
+type ResponseType = {
+  data: WorkspaceResponse;
+};
+
+
+// type ResponseType = InferResponseType<(typeof client.api.workspaces)["$post"]>;
 type RequestType = InferRequestType<(typeof client.api.workspaces)["$post"]>;
+
+
 
 export const useCreateWorkspace = () => {
   const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
@@ -21,7 +29,8 @@ export const useCreateWorkspace = () => {
         throw new Error ("Failed to create workspace")
       }
 
-      return await response.json();
+      return await response.json() as ResponseType;
+      
     },
     onSuccess: () => {
       setOpenAlert({

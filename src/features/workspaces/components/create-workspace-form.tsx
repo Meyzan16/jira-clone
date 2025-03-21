@@ -1,7 +1,6 @@
 "use client";
 
 import { useFormik } from "formik";
-import {useRef} from "react";
 import { createWorkSpaceSchema } from "../schemas";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
@@ -12,10 +11,8 @@ import Input from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/ui/circleloader";
 import { useCreateWorkspace } from "../api/use-create-workspace";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import { ImageIcon } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import UploadImage from "@/components/ui/uploadImage";
 
 interface createWorkSpaceFromProps {
@@ -23,8 +20,10 @@ interface createWorkSpaceFromProps {
 }
 
 export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
-  const { setOpenAlert, pageLevelLoader, setPageLevelLoader } =
+  const router = useRouter();
+  const { pageLevelLoader, setPageLevelLoader } =
     useContext(GlobalContext)!;
+
   const { mutate } = useCreateWorkspace();
 
   const formik = useFormik({
@@ -41,18 +40,15 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-      console.log(values);
-      
+
       mutate({ form: values }, {
-        onSuccess:() => {
+        onSuccess:({ data }) => {
           formik.resetForm();
-          //TODO: redirecting  to new workspace
+          router.push(`/workspaces/${data.$id}`)
         }
       });
     },
   });
-
-
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 

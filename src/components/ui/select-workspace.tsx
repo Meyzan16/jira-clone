@@ -1,26 +1,61 @@
 "use client";
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { ChevronDown, ChevronUp, Check } from "lucide-react";
 import { WorkspaceAvatar } from "@/features/workspaces/components/workspace-avatar";
 
-// Context buat handle shared state antar komponen
-const SelectContext = React.createContext<any>(null);
+// Tipe item untuk list workspace
+interface WorkspaceItem {
+  $id: string;
+  name: string;
+  imageUrl: string;
+}
 
-// Root
+// Tipe untuk item yang sedang dipilih
+interface SelectedItem {
+  value: string;
+  label: ReactNode;
+}
+
+// Context value
+interface SelectContextValue {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  selected: SelectedItem | null;
+  onChange: (val: SelectedItem) => void;
+}
+
+const SelectContext = createContext<SelectContextValue | null>(null);
+
+// Props untuk komponen SelectWorkspace
+interface SelectWorkspaceProps {
+  children: ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  items?: WorkspaceItem[];
+}
+
 export const SelectWorkspace = ({
   children,
   value,
-  defaultValue,
   onValueChange,
   items = [],
-}: any) => {
+}: SelectWorkspaceProps) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(value ?? defaultValue ?? null); // selected = { value, label }
+  const [selected, setSelected] = useState<SelectedItem | null>(null);
 
-  // Update selected value if value prop changes
   useEffect(() => {
     if (value && items.length) {
-      const match = items.find((item: any) => item.$id === value);
+      const match = items.find((item) => item.$id === value);
       if (match) {
         setSelected({
           value: match.$id,
@@ -35,8 +70,7 @@ export const SelectWorkspace = ({
     }
   }, [value, items]);
 
-
-  const handleChange = (val: { value: string; label: React.ReactNode }) => {
+  const handleChange = (val: SelectedItem) => {
     setSelected(val);
     setOpen(false);
     onValueChange?.(val.value);
@@ -52,11 +86,19 @@ export const SelectWorkspace = ({
 };
 
 // Trigger
-export const SelectTrigger = ({ className = "", children }: any) => {
-  const { open, setOpen } = useContext(SelectContext);
+interface SelectTriggerProps {
+  className?: string;
+  children: ReactNode;
+}
+
+export const SelectTrigger = ({ className = "", children }: SelectTriggerProps) => {
+  const context = useContext(SelectContext);
+  if (!context) throw new Error("SelectTrigger must be used within SelectWorkspace");
+  const { open, setOpen } = context;
+
   return (
     <button
-      onClick={() => setOpen((prev: boolean) => !prev)}
+      onClick={() => setOpen((prev) => !prev)}
       className={`flex h-12 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-transparent placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-transparent disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${className}`}
     >
       {children}
@@ -71,7 +113,10 @@ export const SelectTrigger = ({ className = "", children }: any) => {
 
 // Value
 export const SelectValue = ({ placeholder }: { placeholder?: string }) => {
-  const { selected } = useContext(SelectContext);
+  const context = useContext(SelectContext);
+  if (!context) throw new Error("SelectValue must be used within SelectWorkspace");
+  const { selected } = context;
+
   return (
     <span className="line-clamp-1 text-left text-sm text-black">
       {selected?.label || placeholder}
@@ -79,17 +124,20 @@ export const SelectValue = ({ placeholder }: { placeholder?: string }) => {
   );
 };
 
-// Content (Dropdown)
-export const SelectContent = ({ children }: any) => {
-  const { open, setOpen } = useContext(SelectContext);
+// Content
+interface SelectContentProps {
+  children: ReactNode;
+}
+
+export const SelectContent = ({ children }: SelectContentProps) => {
+  const context = useContext(SelectContext);
+  if (!context) throw new Error("SelectContent must be used within SelectWorkspace");
+  const { open, setOpen } = context;
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        contentRef.current &&
-        !contentRef.current.contains(e.target as Node)
-      ) {
+      if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     };
@@ -110,16 +158,16 @@ export const SelectContent = ({ children }: any) => {
 };
 
 // Item
-export const SelectItem = ({
-  value,
-  children,
-  className = "",
-}: {
+interface SelectItemProps {
   value: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-}) => {
-  const { selected, onChange } = useContext(SelectContext);
+}
+
+export const SelectItem = ({ value, children, className = "" }: SelectItemProps) => {
+  const context = useContext(SelectContext);
+  if (!context) throw new Error("SelectItem must be used within SelectWorkspace");
+  const { selected, onChange } = context;
   const isSelected = selected?.value === value;
 
   return (

@@ -3,12 +3,11 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DottedSeparator from "@/components/ui/dotted-separator";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { GlobalContext } from "@/app/context";
 import { loginFormControls } from "@/constants/authControls";
 import Input from "@/components/ui/input";
@@ -16,13 +15,11 @@ import Link from "next/link";
 import CircleLoader from "@/components/ui/circleloader";
 import { signInSchema } from "../schema";
 import { useLogin } from "../api/use-login";
-import { useRouter } from "next/navigation";
 
 const SignInCard = () => {
-  const router = useRouter();
-  const {mutate} = useLogin();
+  const { mutate } = useLogin();
 
-  const { setOpenAlert, pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
+  const { pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const formik = useFormik({
     initialValues: {
@@ -30,17 +27,15 @@ const SignInCard = () => {
       password: "",
     },
     validate: (values) => {
-         const result = signInSchema.safeParse(values);
-         if (!result.success) {
-           return result.error.flatten().fieldErrors; // Konversi error agar kompatibel dengan Formik
-         }
-         return {};
+      const result = signInSchema.safeParse(values);
+      if (!result.success) {
+        return result.error.flatten().fieldErrors; // Konversi error agar kompatibel dengan Formik
+      }
+      return {};
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-      mutate(
-        { json: values }
-      );
+      mutate({ json: values });
     },
   });
 
@@ -109,7 +104,7 @@ const SignInCard = () => {
 
       <CardContent className="p-7 flex items-center justify-center">
         <p>
-          Don't have an account ?
+          Don&apos;t have an account?
           <Link href="/sign-up">
             <span className="text-blue-700">&nbsp;Sign Up</span>
           </Link>

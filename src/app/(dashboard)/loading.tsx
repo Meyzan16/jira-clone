@@ -1,3 +1,5 @@
+"use client";
+
 import CircleLoader from "@/components/ui/circleloader";
 
 const DashboardLoading = () => {

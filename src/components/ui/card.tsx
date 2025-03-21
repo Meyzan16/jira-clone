@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 const Card = ({ className = "", children }: { className?: string; children: React.ReactNode }) => (

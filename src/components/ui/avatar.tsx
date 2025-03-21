@@ -1,5 +1,6 @@
 "use client";
 
+import Image, {  ImageProps } from "next/image";
 import React from "react";
 
 // Komponen utama Avatar
@@ -15,18 +16,43 @@ const Avatar = React.forwardRef<
 ));
 Avatar.displayName = "Avatar";
 
-// Komponen untuk menampilkan gambar Avatar
+// // Komponen untuk menampilkan gambar Avatar
+// const AvatarImage = React.forwardRef<
+//   HTMLImageElement,
+//   React.ComponentPropsWithoutRef<"img">
+// >(({ className = "", ...props }, ref) => (
+//   <img
+//     ref={ref}
+//     className={`aspect-square h-full w-full ${className}`}
+//     {...props}
+//   />
+// ));
+// AvatarImage.displayName = "AvatarImage";
+
 const AvatarImage = React.forwardRef<
-  HTMLImageElement,
-  React.ComponentPropsWithoutRef<"img">
->(({ className = "", ...props }, ref) => (
-  <img
-    ref={ref}
-    className={`aspect-square h-full w-full ${className}`}
-    {...props}
-  />
-));
+  HTMLDivElement,
+  ImageProps
+>(({ className = "", ...props }, ref) => {
+  const { alt = "", ...rest } = props;
+
+  return (
+    <div
+      ref={ref}
+      className={`aspect-square h-full w-full ${className}`}
+    >
+      <Image
+        fill
+        sizes="40px"
+        className="object-cover"
+        alt={alt}
+        {...rest}
+      />
+    </div>
+  );
+});
 AvatarImage.displayName = "AvatarImage";
+
+
 
 // Komponen fallback jika gambar tidak tersedia
 const AvatarFallback = React.forwardRef<
