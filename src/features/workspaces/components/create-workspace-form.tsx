@@ -21,8 +21,7 @@ interface createWorkSpaceFromProps {
 
 export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
   const router = useRouter();
-  const { pageLevelLoader, setPageLevelLoader } =
-    useContext(GlobalContext)!;
+  const { pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const { mutate } = useCreateWorkspace();
 
@@ -41,12 +40,15 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     onSubmit: (values) => {
       setPageLevelLoader(true);
 
-      mutate({ form: values }, {
-        onSuccess:({ data }) => {
-          formik.resetForm();
-          router.push(`/workspaces/${data.$id}`)
+      mutate(
+        { form: values },
+        {
+          onSuccess: ({ data }) => {
+            formik.resetForm();
+            router.push(`/workspaces/${data.$id}`);
+          },
         }
-      });
+      );
     },
   });
 
@@ -81,20 +83,22 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
                 touched={touched[item.id as keyof typeof values]}
               />
             ) : item.componentType === "file" ? (
-                  <UploadImage
-                  key={index}
-                  id={item.id}
-                  label={item.label}
-                  value={values[item.id as keyof typeof values] as File | string | null}
-                  onChange={(file) => formik.setFieldValue(item.id, file)}
-                />
-            ): null
+              <UploadImage
+                key={index}
+                id={item.id}
+                label={item.label}
+                value={
+                  values[item.id as keyof typeof values] as File | string | null
+                }
+                onChange={(file) => formik.setFieldValue(item.id, file)}
+              />
+            ) : null
           )}
 
           <DottedSeparator />
 
           <div className="flex items-center justify-between">
-            <Button size="lg" variant="secondary" onClick={onCancel}>
+            <Button size="lg" variant="secondary" onClick={onCancel} className={onCancel ? "block" : "invisible"}>
               Cancel
             </Button>
 
