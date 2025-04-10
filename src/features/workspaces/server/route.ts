@@ -82,7 +82,7 @@ const app = new Hono()
             name: name,
             userId: user.$id,
             imageUrl: uploadImgaeUrl,
-            inviteCode: generateInviteCode(6)
+            inviteCode: generateInviteCode(6),
           }
         );
 
@@ -98,7 +98,8 @@ const app = new Hono()
         return c.json({ message: `Internal Server Error ${error}` }, 500);
       }
     }
-  ). patch(
+  )
+  .patch(
     "/:workspaceId",
     zValidator("form", updateWorkSpaceSchema),
     sessionMiddleware,
@@ -112,17 +113,17 @@ const app = new Hono()
           return c.json({ message: "User not authenticated" }, 400);
         }
 
-        const {workspaceId} = c.req.param();
-        const {name,image} = c.req.valid("form");
+        const { workspaceId } = c.req.param();
+        const { name, image } = c.req.valid("form");
 
         const member = await getMember({
           databases,
           workspaceId,
           userId: user.$id,
-        })
+        });
 
-        if(!member || member.role !== MemberRole.ADMIN) {
-          return c.json({ message: "Unauthorized" }, 401);  
+        if (!member || member.role !== MemberRole.ADMIN) {
+          return c.json({ message: "Unauthorized" }, 401);
         }
 
         let uploadImgaeUrl: string | undefined;
@@ -143,13 +144,14 @@ const app = new Hono()
             arrayBuffer
           ).toString("base64")}`;
         } else {
-          uploadImgaeUrl = image
+          uploadImgaeUrl = image;
         }
 
         const workspace = await databases.updateDocument(
           DATABASE_ID,
           WORKSPACES_ID,
-          workspaceId, {
+          workspaceId,
+          {
             name,
 
             imageUrl: uploadImgaeUrl,
@@ -157,11 +159,45 @@ const app = new Hono()
         );
 
         return c.json({ data: workspace });
-
       } catch (error) {
         return c.json({ message: `Internal Server Error ${error}` }, 500);
       }
     }
   )
+  .delete(
+    "/:workspaceId",
+    sessionMiddleware,
+    async (c) => {
+      try {
+        const databases = c.get("databases");
+        const storage = c.get("storage");
+        const user = c.get("user");
+
+        if (!user) {
+          return c.json({ message: "User not authenticated" }, 400);
+        }
+
+        const { workspaceId } = c.req.param();
+
+        const member = await getMember({
+          databases,
+          workspaceId,
+          userId: user.$id,
+        });
+
+        if (!member || member.role !== MemberRole.ADMIN) {
+          return c.json({ message: "Unauthorized" }, 401);
+        }
+
+        //TODO :  Delete members , projects and tasks
+
+        await databases.deleteDocument(DATABASE_ID, WORKSPACES_ID, workspaceId);
+
+        return c.json({ data: { $id :workspaceId } });
+      } catch (error) {
+        return c.json({ message: `Internal Server Error ${error}` }, 500);
+      }
+    }
+  );
 
 export default app;

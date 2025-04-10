@@ -17,6 +17,8 @@ import { Workspace } from "../types";
 import { useUpdateWorkspace } from "../api/use-update-workspace";
 import { getFormikError } from "@/lib/utils";
 import { ArrowLeftIcon } from "lucide-react";
+import { useConfirm } from "@/hooks/use-confirm";
+import { useDeleteWorkspace } from "../api/use-delete-workspace";
 
 interface editWorkSpaceFromProps {
   onCancel?: () => void;
@@ -27,7 +29,14 @@ export const EditWorkSpaceForm = ({ onCancel , initialValues }: editWorkSpaceFro
   const router = useRouter();
   const { pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
+  const [DeleteDialog, confirmDelete] = useConfirm(
+    "Delete Workspace",
+    "This action cannot be undone"
+  );
+
   const { mutate } = useUpdateWorkspace();
+  const {mutate: deleteWorkspace} = useDeleteWorkspace();
+
 
   const formik = useFormik<Workspace>({
     initialValues: {
@@ -59,68 +68,98 @@ export const EditWorkSpaceForm = ({ onCancel , initialValues }: editWorkSpaceFro
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
+  const handleDelete = async () => {
+      const ok = await confirmDelete();
+
+      if(!ok) return;
+
+      deleteWorkspace( {
+        param : { workspaceId: initialValues.$id },
+      }, {
+        onSuccess: () => {
+          router.push("/");
+        },
+      })
+  }
+
   return (
-    <Card className="w-full h-full border-none shadow-none">
-      <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
-        <Button size="sm" variant="secondary" onClick={onCancel ? onCancel : () => router.push(`/workspaces/${initialValues.$id}`)} > 
-          <ArrowLeftIcon className="size-4 mr-2" />
-          Back
-        </Button>
-        <CardTitle className="text-xl font-bold">
-          {initialValues.name}
-        </CardTitle>
-      </CardHeader>
-      <div className="px-7 py-4">
-        <DottedSeparator />
-      </div>
-      <CardContent className="px-7">
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          {createOrUpdateWorkSpaceControls.map((item, index) =>
-            item.componentType === "input" ? (
-              <Input
-                key={index}
-                id={item.id}
-                label={item.label}
-                type={item.type}
-                value={values[item.id as keyof typeof values]}
-                onChange={handleChange}
-                errors={
-                  touched[item.id as keyof typeof values]
-                    ? getFormikError(errors[item.id as keyof typeof values])
-                    : undefined
-                }
-                touched={!!touched[item.id as keyof typeof values]}
-              />
-            ) : item.componentType === "file" ? (
-              <UploadImage
-                key={index}
-                id={item.id}
-                label={item.label}
-                value={
-                  values[item.id as keyof typeof values] as File | string | null
-                }
-                onChange={(file) => formik.setFieldValue(item.id, file)}
-              />
-            ) : null
-          )}
-
+    <div className="flex flex-col gap-y-4">
+      <DeleteDialog />
+      <Card className="w-full h-full border-none shadow-none">
+        <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
+          <Button size="sm" variant="secondary" onClick={onCancel ? onCancel : () => router.push(`/workspaces/${initialValues.$id}`)} > 
+            <ArrowLeftIcon className="size-4 mr-2" />
+            Back
+          </Button>
+          <CardTitle className="text-xl font-bold">
+            {initialValues.name}
+          </CardTitle>
+        </CardHeader>
+        <div className="px-7 py-4">
           <DottedSeparator />
+        </div>
+        <CardContent className="px-7">
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {createOrUpdateWorkSpaceControls.map((item, index) =>
+              item.componentType === "input" ? (
+                <Input
+                  key={index}
+                  id={item.id}
+                  label={item.label}
+                  type={item.type}
+                  value={values[item.id as keyof typeof values]}
+                  onChange={handleChange}
+                  errors={
+                    touched[item.id as keyof typeof values]
+                      ? getFormikError(errors[item.id as keyof typeof values])
+                      : undefined
+                  }
+                  touched={!!touched[item.id as keyof typeof values]}
+                />
+              ) : item.componentType === "file" ? (
+                <UploadImage
+                  key={index}
+                  id={item.id}
+                  label={item.label}
+                  value={
+                    values[item.id as keyof typeof values] as File | string | null
+                  }
+                  onChange={(file) => formik.setFieldValue(item.id, file)}
+                />
+              ) : null
+            )}
 
-          <div className="flex items-center justify-between">
-            <Button size="lg" variant="secondary" onClick={() => onCancel?.()} className={onCancel ? "block" : "invisible"}>
-              Cancel
-            </Button>
+            <DottedSeparator />
 
-            <Button size="lg" variant="primary" type="submit" disabled={pageLevelLoader}>
-              {pageLevelLoader === true ? (
-                <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
-              ) : (
-                "Save Changes"
-              )}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+            <div className="flex items-center justify-between">
+              <Button size="lg" variant="secondary" onClick={() => onCancel?.()} className={onCancel ? "block" : "invisible"}>
+                Cancel
+              </Button>
+
+              <Button size="lg" variant="primary" type="submit" disabled={pageLevelLoader}>
+                {pageLevelLoader === true ? (
+                  <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+      <Card className="w-full h-full border-none shadow-none">
+          <CardContent className="p-7">
+                <div className="flex flex-col">
+                  <h3 className="font-bold">Danger Zone</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Deleting a workspace is irreversible and will remove all data associated .
+                  </p>
+                  <Button className="mt-6 w-fit ml-auto" size="sm" variant="destructive" type="button" onClick={handleDelete}>
+                    Delete Workspace
+                  </Button>
+                </div>
+          </CardContent>
+      </Card>
+    </div>
   );
 };
