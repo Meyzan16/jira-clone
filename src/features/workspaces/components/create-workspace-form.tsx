@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DottedSeparator from "@/components/ui/dotted-separator";
-import { createWorkSpaceControls } from "@/constants/workSpacesControls";
+import { createOrUpdateWorkSpaceControls } from "@/constants/workSpacesControls";
 import Input from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/ui/circleloader";
@@ -66,7 +66,7 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
       </div>
       <CardContent className="px-7">
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {createWorkSpaceControls.map((item, index) =>
+          {createOrUpdateWorkSpaceControls.map((item, index) =>
             item.componentType === "input" ? (
               <Input
                 key={index}

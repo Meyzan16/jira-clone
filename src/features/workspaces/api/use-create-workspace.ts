@@ -15,7 +15,6 @@ type ResponseType = {
 type RequestType = InferRequestType<(typeof client.api.workspaces)["$post"]>;
 
 
-
 export const useCreateWorkspace = () => {
   const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
 
