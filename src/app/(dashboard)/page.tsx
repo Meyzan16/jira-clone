@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
-import { getCurrent } from "@/features/auth/actions";
+import { getCurrent } from "@/features/auth/queries";
 import { getWorkspaces } from "@/features/workspaces/actions";
 const Home = async () => {
   const user = await  getCurrent();
-
   if(!user) redirect("/sign-in");
 
   const workspace = await getWorkspaces();
