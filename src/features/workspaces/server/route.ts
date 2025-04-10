@@ -2,7 +2,7 @@ import "server-only";
 
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { createWorkSpaceSchema } from "../schemas";
+import { createWorkSpaceSchema, updateWorkSpaceSchema } from "../schemas";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import {
   DATABASE_ID,
@@ -13,6 +13,7 @@ import {
 import { ID, Query } from "node-appwrite";
 import { MemberRole } from "@/features/members/types";
 import { generateInviteCode } from "@/lib/utils";
+import getMember from "@/features/members/utils";
 
 const app = new Hono()
   .get("/", sessionMiddleware, async (c) => {
@@ -62,7 +63,7 @@ const app = new Hono()
             image
           );
 
-          const arrayBuffer = await storage.getFilePreview(
+          const arrayBuffer = await storage.getFileView(
             IMAGES_BUCKED_ID,
             file.$id
           );
@@ -97,6 +98,70 @@ const app = new Hono()
         return c.json({ message: `Internal Server Error ${error}` }, 500);
       }
     }
-  );
+  ). patch(
+    "/:workspaceId",
+    zValidator("form", updateWorkSpaceSchema),
+    sessionMiddleware,
+    async (c) => {
+      try {
+        const databases = c.get("databases");
+        const storage = c.get("storage");
+        const user = c.get("user");
+
+        if (!user) {
+          return c.json({ message: "User not authenticated" }, 400);
+        }
+
+        const {workspaceId} = c.req.param();
+        const {name,image} = c.req.valid("form");
+
+        const member = await getMember({
+          databases,
+          workspaceId,
+          userId: user.$id,
+        })
+
+        if(!member || member.role !== MemberRole.ADMIN) {
+          return c.json({ message: "Unauthorized" }, 401);  
+        }
+
+        let uploadImgaeUrl: string | undefined;
+
+        if (image instanceof File) {
+          const file = await storage.createFile(
+            IMAGES_BUCKED_ID,
+            ID.unique(),
+            image
+          );
+
+          const arrayBuffer = await storage.getFileView(
+            IMAGES_BUCKED_ID,
+            file.$id
+          );
+
+          uploadImgaeUrl = `data:image/png;base64,${Buffer.from(
+            arrayBuffer
+          ).toString("base64")}`;
+        } else {
+          uploadImgaeUrl = image
+        }
+
+        const workspace = await databases.updateDocument(
+          DATABASE_ID,
+          WORKSPACES_ID,
+          workspaceId, {
+            name,
+
+            imageUrl: uploadImgaeUrl,
+          }
+        );
+
+        return c.json({ data: workspace });
+
+      } catch (error) {
+        return c.json({ message: `Internal Server Error ${error}` }, 500);
+      }
+    }
+  )
 
 export default app;

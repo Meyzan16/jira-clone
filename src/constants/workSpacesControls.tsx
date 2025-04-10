@@ -10,10 +10,9 @@ interface Props {
     placeholder: string;
     label: string;
     componentType: string; 
-    options? : Option[];
 }
 
-export const createWorkSpaceControls: Props[] = [
+export const createOrUpdateWorkSpaceControls: Props[] = [
     {
         id: 'name',
         type: 'text',

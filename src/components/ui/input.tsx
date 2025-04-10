@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface InputProps {
@@ -26,6 +26,10 @@ const Input: FC<InputProps> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   const isPasswordInput = type === "password";
+
+  useEffect(() => {
+    setIsFilledOrFocused(!!value && value.toString().length > 0);
+  }, [value]);
 
   // const isFilledOrFocused = value.length > 0;
 
@@ -57,10 +61,6 @@ const Input: FC<InputProps> = ({
         className={`w-full px-4 pt-5 pb-2 border rounded-full  
                     font-poppins 
                     text-base shadow-sm transition-colors 
-                    file:border-0 
-                    file:bg-transparent file:text-sm 
-                    file:font-medium 
-                    file:text-foreground 
                     placeholder:text-muted-foreground 
                     focus-visible:outline-none 
                     focus-visible:ring-1 

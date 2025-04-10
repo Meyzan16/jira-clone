@@ -9,7 +9,7 @@ const Card = ({ className = "", children }: { className?: string; children: Reac
 );
 
 const CardHeader = ({ className = "", children }: { className?: string; children: React.ReactNode }) => (
-  <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>{children}</div>
+  <div className={`flex flex-row space-y-1.5 p-6 ${className}`}>{children}</div>
 );
 
 const CardTitle = ({ className = "", children }: { className?: string; children: React.ReactNode }) => (
