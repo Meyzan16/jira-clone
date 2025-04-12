@@ -14,6 +14,8 @@ import { ID, Query } from "node-appwrite";
 import { MemberRole } from "@/features/members/types";
 import { generateInviteCode } from "@/lib/utils";
 import getMember from "@/features/members/utils";
+import { z } from "zod";
+import { Workspace } from "../types";
 
 const app = new Hono()
   .get("/", sessionMiddleware, async (c) => {
@@ -229,6 +231,51 @@ const app = new Hono()
         });
 
         return c.json({ data: workspace });
+        
+      } catch (error) {
+        return c.json({ message: `Internal Server Error ${error}` }, 500);
+      }
+    }
+  )
+  .post(
+    "/:workspaceId/join",
+    sessionMiddleware,
+    zValidator("json", z.object({ code: z.string() })),
+    async (c) => {
+      try {
+        const { workspaceId } = c.req.param();
+        const { code } = c.req.valid("json");
+
+        const databases = c.get("databases");
+        const user = c.get("user");
+
+        if (!user) {
+          return c.json({ message: "User not authenticated" }, 400);
+        }
+
+        const member = await getMember({
+          databases,
+          workspaceId,
+          userId: user.$id,
+        });
+
+        if (member) {
+          return c.json({ message: "alredy a member" }, 400);
+        }
+
+        const workspace = await databases.getDocument<Workspace>(DATABASE_ID, WORKSPACES_ID, workspaceId);
+
+        if (workspace.inviteCode !== code) {
+          return c.json({ message: "Invalid invite code" }, 400);
+        }
+
+        const newMember = await databases.createDocument(DATABASE_ID, MEMBERS_ID, ID.unique(), {
+          workspaceId: workspaceId,
+          userId: user.$id,
+          role: MemberRole.MEMBER,
+        });
+
+        return c.json({ data: newMember });
         
       } catch (error) {
         return c.json({ message: `Internal Server Error ${error}` }, 500);

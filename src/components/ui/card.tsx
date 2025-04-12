@@ -17,7 +17,7 @@ const CardTitle = ({ className = "", children }: { className?: string; children:
 );
 
 const CardDescription = ({ className = "", children }: { className?: string; children?: React.ReactNode }) => (
-  children ? <p className={`text-sm text-muted-foreground ${className}`}>{children}</p> : null
+  children ? <p className={`mt-2 text-sm text-muted-foreground ${className}`}>{children}</p> : null
 );
 
 const CardContent = ({ className = "", children }: { className?: string; children: React.ReactNode }) => (

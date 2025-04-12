@@ -17,10 +17,13 @@ export const useDeleteWorkspace = () => {
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
       const response = await client.api.workspaces[":workspaceId"]["$delete"]({ param });
-      if(!response.ok){
-        throw new Error ("Failed to delete workspace")
+      const body = await response.json(); // <- baca JSON body
+
+      if (!response.ok) {
+        throw new Error((body as { message: string }).message || "Failed to delete workspace");
       }
-      return await response.json() as ResponseType;
+
+      return body as ResponseType;
       
     },
     onSuccess: ({data}) => {
@@ -30,7 +33,7 @@ export const useDeleteWorkspace = () => {
         severity: "success",
       });
       queryClient.invalidateQueries({queryKey : ["workspaces"]});  
-      queryClient.invalidateQueries({queryKey : ["workspaces", data.$id]});  
+      queryClient.invalidateQueries({queryKey : ["workspace", data.$id]});  
     },onError: (error) => {
       setOpenAlert({
         status: true,

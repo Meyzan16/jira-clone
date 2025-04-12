@@ -24,11 +24,13 @@ export const useCreateWorkspace = () => {
     mutationFn: async ({ form }) => {
       const response = await client.api.workspaces["$post"]({ form });
 
-      if(!response.ok){
-        throw new Error ("Failed to create workspace")
+      const body = await response.json(); // <- baca JSON body
+
+      if (!response.ok) {
+        throw new Error((body as { message: string }).message || "Failed to create workspace");
       }
 
-      return await response.json() as ResponseType;
+      return body as ResponseType;
       
     },
     onSuccess: () => {

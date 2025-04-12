@@ -6,21 +6,21 @@ import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
 
 
-type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"], 200>;
-type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"]>;
+type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspaceId"]["join"]["$post"], 200>;
+type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["join"]["$post"]>;
 
-export const useResetInviteLink = () => {
+export const useJoinWorkspace = () => {
   const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ param }) => {
-      const response = await client.api.workspaces[":workspaceId"]["reset-invite-code"]["$post"]({ param });
+    mutationFn: async ({ param,json }) => {
+      const response = await client.api.workspaces[":workspaceId"]["join"]["$post"]({ param,json });
       const body = await response.json(); // <- baca JSON body
 
       if (!response.ok) {
-        throw new Error((body as { message: string }).message || "Failed to reset invite code");
+        throw new Error((body as { message: string }).message || "Failed to join workspace");
       }
 
       return body as ResponseType;
@@ -29,7 +29,7 @@ export const useResetInviteLink = () => {
     onSuccess: ({data}) => {
       setOpenAlert({
         status: true,
-        message: "invite code reset",
+        message: "joined workspace",
         severity: "success",
       });
       queryClient.invalidateQueries({queryKey : ["workspaces"]});  
@@ -37,7 +37,7 @@ export const useResetInviteLink = () => {
     },onError: (error) => {
       setOpenAlert({
         status: true,
-        message: error.message || "Failed to reset invite code",
+        message: error.message,
         severity: "error",
       });
     },

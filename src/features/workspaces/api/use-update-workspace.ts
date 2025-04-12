@@ -19,11 +19,13 @@ export const useUpdateWorkspace = () => {
     mutationFn: async ({ form, param }) => {
       const response = await client.api.workspaces[":workspaceId"]["$patch"]({ form, param });
 
-      if(!response.ok){
-        throw new Error ("Failed to update workspace")
+      const body = await response.json(); // <- baca JSON body
+
+      if (!response.ok) {
+        throw new Error((body as { message: string }).message || "Failed to update workspace");
       }
 
-      return await response.json() as ResponseType;
+      return body as ResponseType;
       
     },
     onSuccess: ({data}) => {
@@ -33,7 +35,7 @@ export const useUpdateWorkspace = () => {
         severity: "success",
       });
       queryClient.invalidateQueries({queryKey : ["workspaces"]});  
-      queryClient.invalidateQueries({queryKey : ["workspaces", data.$id]});  
+      queryClient.invalidateQueries({queryKey : ["workspace", data.$id]});  
     },onError: (error) => {
       setOpenAlert({
         status: true,
