@@ -90,7 +90,7 @@ const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
 
   return (
     <div
-      className={`absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white p-1 text-gray-800 shadow-md ${
+      className={`absolute z-50 min-w-[15rem] overflow-hidden rounded-md border bg-white p-1 text-gray-800 shadow-md ${
         side === "bottom" ? `top-full mt-${sideOffset}` : ""
       } ${side === "top" ? `bottom-full mb-${sideOffset}` : ""} ${
         side === "left" ? `right-full mr-${sideOffset}` : ""
@@ -110,7 +110,7 @@ const DropdownMenuItem: React.FC<
 > = ({ children, onClick, className = "", setIsOpen }) => {
   return (
     <div
-      className={`relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-gray-100 ${className}`}
+      className={`relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-4 py-1.5 text-sm outline-none transition-colors hover:bg-gray-100 ${className}`}
       onClick={(e) => {
         if (setIsOpen) setIsOpen(false);
         if (onClick) onClick(e);

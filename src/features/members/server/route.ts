@@ -45,6 +45,7 @@ const app = new Hono()
               ...member,
               name: user.name,
               email: user.email,
+              role: member.role
             };
           })
         );
