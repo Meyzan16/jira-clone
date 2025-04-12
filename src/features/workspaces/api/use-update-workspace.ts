@@ -19,7 +19,7 @@ export const useUpdateWorkspace = () => {
     mutationFn: async ({ form, param }) => {
       const response = await client.api.workspaces[":workspaceId"]["$patch"]({ form, param });
 
-      const body = await response.json(); // <- baca JSON body
+      const body = await response.json();
 
       if (!response.ok) {
         throw new Error((body as { message: string }).message || "Failed to update workspace");

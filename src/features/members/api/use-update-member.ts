@@ -6,21 +6,21 @@ import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
 
 
-type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"], 200>;
-type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"]>;
+type ResponseType = InferResponseType<(typeof client.api.members)[":memberId"]["$patch"], 200>;
+type RequestType = InferRequestType<(typeof client.api.members)[":memberId"]["$patch"]>;
 
-export const useResetInviteLink = () => {
+export const useUpdateMember = () => {
   const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ param }) => {
-      const response = await client.api.workspaces[":workspaceId"]["reset-invite-code"]["$post"]({ param });
+    mutationFn: async ({ param , json }) => {
+      const response = await client.api.members[":memberId"]["$patch"]({ param, json });
       const body = await response.json();
 
       if (!response.ok) {
-        throw new Error((body as { message: string }).message || "Failed to reset invite code");
+        throw new Error((body as { message: string }).message || "Failed to update member");
       }
 
       return body as ResponseType;
@@ -29,15 +29,15 @@ export const useResetInviteLink = () => {
     onSuccess: ({data}) => {
       setOpenAlert({
         status: true,
-        message: "invite code reset",
+        message: "member updated",
         severity: "success",
       });
-      queryClient.invalidateQueries({queryKey : ["workspaces"]});  
-      queryClient.invalidateQueries({queryKey : ["workspace", data.$id]});  
+      queryClient.invalidateQueries({queryKey : ["members"]});  
+      queryClient.invalidateQueries({queryKey : ["member", data.$id]});  
     },onError: (error) => {
       setOpenAlert({
         status: true,
-        message: error.message || "Failed to reset invite code",
+        message: error.message || "update member failed",
         severity: "error",
       });
     },
