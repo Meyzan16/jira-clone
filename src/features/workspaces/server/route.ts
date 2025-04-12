@@ -198,6 +198,42 @@ const app = new Hono()
         return c.json({ message: `Internal Server Error ${error}` }, 500);
       }
     }
+  ) 
+  .post(
+    "/:workspaceId/reset-invite-code",
+    sessionMiddleware,
+    async (c) => {
+      try {
+        const databases = c.get("databases");
+        const storage = c.get("storage");
+        const user = c.get("user");
+
+        if (!user) {
+          return c.json({ message: "User not authenticated" }, 400);
+        }
+
+        const { workspaceId } = c.req.param();
+
+        const member = await getMember({
+          databases,
+          workspaceId,
+          userId: user.$id,
+        });
+
+        if (!member || member.role !== MemberRole.ADMIN) {
+          return c.json({ message: "Unauthorized" }, 401);
+        }
+
+        const workspace = await databases.updateDocument(DATABASE_ID, WORKSPACES_ID, workspaceId, {
+          inviteCode: generateInviteCode(6),
+        });
+
+        return c.json({ data: workspace });
+        
+      } catch (error) {
+        return c.json({ message: `Internal Server Error ${error}` }, 500);
+      }
+    }
   );
 
 export default app;

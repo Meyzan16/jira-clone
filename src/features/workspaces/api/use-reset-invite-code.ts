@@ -6,19 +6,19 @@ import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
 
 
-type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspaceId"]["$delete"], 200>;
-type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["$delete"]>;
+type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"], 200>;
+type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["reset-invite-code"]["$post"]>;
 
-export const useDeleteWorkspace = () => {
+export const useResetInviteLink = () => {
   const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
-      const response = await client.api.workspaces[":workspaceId"]["$delete"]({ param });
+      const response = await client.api.workspaces[":workspaceId"]["reset-invite-code"]["$post"]({ param });
       if(!response.ok){
-        throw new Error ("Failed to delete workspace")
+        throw new Error ("Failed to reset invite code")
       }
       return await response.json() as ResponseType;
       
@@ -26,7 +26,7 @@ export const useDeleteWorkspace = () => {
     onSuccess: ({data}) => {
       setOpenAlert({
         status: true,
-        message: "workspace success deleted",
+        message: "invite code reset",
         severity: "success",
       });
       queryClient.invalidateQueries({queryKey : ["workspaces"]});  
@@ -34,7 +34,7 @@ export const useDeleteWorkspace = () => {
     },onError: (error) => {
       setOpenAlert({
         status: true,
-        message: error.message || "deleted workspace failed",
+        message: error.message || "Failed to reset invite code",
         severity: "error",
       });
     },

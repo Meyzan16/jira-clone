@@ -1,62 +1,81 @@
-import { useState } from "react";
-import { Button  } from "@/components/ui/button";
+import { useContext, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
-import { Card, CardContent,CardDescription ,CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { resolve } from "path";
 import { set } from "zod";
-
+import { GlobalContext } from "@/app/context";
+import CircleLoader from "@/components/ui/circleloader";
 
 export const useConfirm = (
-    title: string,
-    message: string
-): [() => JSX.Element , () => Promise<unknown>] => {
-    const[promise, setPromise] = useState<{ resolve: (value: boolean) =>void } | null>(null);
+  title: string,
+  message: string
+): [() => JSX.Element, () => Promise<unknown>] => {
+  const { pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
-    const confirm = () => {
-        return new Promise((resolve) => {
-            setPromise({ resolve });
-        })
-    }
+  const [promise, setPromise] = useState<{
+    resolve: (value: boolean) => void;
+  } | null>(null);
 
-    const handleClose = () => {
-       setPromise(null);
-    }
+  const confirm = () => {
+    return new Promise((resolve) => {
+      setPromise({ resolve });
+    });
+  };
 
-    const handleConfirm = () => {
-        promise?.resolve(true);
-        handleClose
-    }
+  const handleClose = () => {
+    setPromise(null);
+  };
 
-    const handleCancel = () => {
-        promise?.resolve(false);
-        handleClose();
-    }
+  const handleConfirm = () => {
+    promise?.resolve(true);
+    handleClose;
+  };
 
-    const ConfirmationDialog = () => (
+  const handleCancel = () => {
+    promise?.resolve(false);
+    handleClose();
+  };
 
-        <ResponsiveModal open={promise !== null} onOpenChange={handleClose}>
-            <Card className="w-full h-full border-none shadow-none">
-                <CardContent>
-                    <CardHeader className="p-0">
-                        <CardTitle>
-                            {title}
-                        </CardTitle>
-                        <CardDescription>
-                            {message}
-                        </CardDescription>
-                    </CardHeader>
-                    <div className="pt-4 w-full flex flex-col gap-y-2 md:flex-row gap-x-2 items-center justify-end">
-                        <Button onClick={handleCancel} variant="outline" size="lg" className="w-full lg:w-auto">
-                            Cancel
-                        </Button>
-                        <Button onClick={handleConfirm} variant="destructive" size="lg" className="w-full lg:w-auto">
-                            Confirm
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
-        </ResponsiveModal>
-)
-    return [ConfirmationDialog, confirm]
-    
-}
+  const ConfirmationDialog = () => (
+    <ResponsiveModal open={promise !== null} onOpenChange={handleClose}>
+      <Card className="w-full h-full border-none shadow-none">
+        <CardContent>
+          <CardHeader className="p-0">
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{message}</CardDescription>
+          </CardHeader>
+          <div className="pt-4 w-full flex flex-col gap-y-2 md:flex-row gap-x-2 items-center justify-end">
+            <Button
+              onClick={handleCancel}
+              variant="outline"
+              size="lg"
+              className="w-full lg:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              variant="destructive"
+              size="lg"
+              className="w-full lg:w-auto"
+            >
+              {pageLevelLoader === true ? (
+                <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
+              ) : (
+                "Confirm"
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </ResponsiveModal>
+  );
+  return [ConfirmationDialog, confirm];
+};

@@ -39,7 +39,6 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
     },
     onSubmit: (values) => {
       setPageLevelLoader(true);
-
       mutate(
         { form: values },
         {

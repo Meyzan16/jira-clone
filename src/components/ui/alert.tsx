@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "@/app/context";
 
@@ -36,16 +37,13 @@ const AlertComponent = () => {
 
   if (!openAlert.status) return null;
 
-  console.log('open alert end', openAlert.status)
-  
-  
-  return (
+  return createPortal(
     <div
-      className={`w-[400px] md:w-auto  fixed left-1/2 top-0 transform -translate-x-1/2  px-6 py-3 rounded-full 
+      className={`fixed left-1/2 top-0 transform -translate-x-1/2 px-6 py-3 rounded-full 
         shadow-lg transition-all duration-300 
-        ${ isVisible ? "translate-y-20 opacity-100" : "-translate-y-full opacity-0"} 
-        ${severityStyles[openAlert.severity]}`
-      }
+        ${isVisible ? "translate-y-20 opacity-100" : "-translate-y-full opacity-0"} 
+        ${severityStyles[openAlert.severity]}
+        z-[9999]`}
       data-severity={openAlert.severity}
     >
       <div className="flex gap-4 items-center justify-between">
@@ -58,7 +56,8 @@ const AlertComponent = () => {
           ✖
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
