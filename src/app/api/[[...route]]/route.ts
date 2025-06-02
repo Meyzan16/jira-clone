@@ -3,16 +3,18 @@ import {handle} from 'hono/vercel';
 
 //untuk masukin route yang ada di auth
 import auth from '@/features/auth/server/route'; 
-import workspaces from '@/features/workspaces/server/route';
 import members from '@/features/members/server/route';
+import workspaces from '@/features/workspaces/server/route';
+import projects from '@/features/projects/server/route';
 
 const app = new Hono().basePath("/api");
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars   
 const _routes = app
     .route("/auth", auth)
     .route("/workspaces", workspaces)
-    .route("/members", members);
+    .route("/members", members)
+    .route("/projects", projects);
 
 app.get("/test", (c) => {
     return c.json({message: "Hello World"});

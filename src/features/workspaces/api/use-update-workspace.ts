@@ -11,7 +11,7 @@ type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspace
 type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["$patch"]>;
 
 export const useUpdateWorkspace = () => {
-  const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
+  const { setOpenAlert, setComponentLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
 
@@ -44,7 +44,7 @@ export const useUpdateWorkspace = () => {
       });
     },
     onSettled: () => {
-      setPageLevelLoader(false);
+      setComponentLevelLoader({loading: false, id: "save-changes"});
     },
   });
 

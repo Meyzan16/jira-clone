@@ -10,24 +10,11 @@ const Avatar = React.forwardRef<
 >(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
-    className={`relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full ${className}`}
+    className={`relative flex h-8 w-8 shrink-0 overflow-hiddens ${className}`}
     {...props}
   />
 ));
 Avatar.displayName = "Avatar";
-
-// // Komponen untuk menampilkan gambar Avatar
-// const AvatarImage = React.forwardRef<
-//   HTMLImageElement,
-//   React.ComponentPropsWithoutRef<"img">
-// >(({ className = "", ...props }, ref) => (
-//   <img
-//     ref={ref}
-//     className={`aspect-square h-full w-full ${className}`}
-//     {...props}
-//   />
-// ));
-// AvatarImage.displayName = "AvatarImage";
 
 const AvatarImage = React.forwardRef<
   HTMLDivElement,
@@ -61,7 +48,7 @@ const AvatarFallback = React.forwardRef<
 >(({ className = "", children, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex h-full w-full items-center justify-center rounded-full bg-muted ${className}`}
+    className={`flex h-full w-full items-center justify-center bg-muted rounded-lg  ${className}`}
     {...props}
   >
     {children || "?"}

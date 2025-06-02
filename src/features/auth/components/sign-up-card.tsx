@@ -55,9 +55,10 @@ const SignUpCard = () => {
 
   return (
     <Card className="md:w-[487px] w-full h-full  border-none shadow-none">
-      <CardHeader className="flex items-center justify-center text-center p-7">
+      <CardHeader className="flex items-center justify-center text-center pt-4">
         <CardTitle className="text-2xl">Sign Up</CardTitle>
-        <CardDescription>
+      </CardHeader>
+        <CardDescription className="items-center text-center pb-4 ">
           By signing up , you agree to our{" "}
           <Link href="/privacy">
             <span className="text-blue-700 hover:cursor-pointer">
@@ -71,7 +72,6 @@ const SignUpCard = () => {
             </span>
           </Link>{" "}
         </CardDescription>
-      </CardHeader>
       <div className="px-7 mb-4">
         <DottedSeparator />
       </div>

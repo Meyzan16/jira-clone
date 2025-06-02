@@ -17,10 +17,10 @@ interface AlertState {
 //   route: string;
 // };
 
-// interface ComponentLoaderState {
-//   loading: boolean;
-//   id: string;
-// };
+interface ComponentLoaderState {
+  loading: boolean;
+  id: string;
+};
 
 // interface Search {
 //   show: boolean;
@@ -34,10 +34,10 @@ type ContextType = {
 //   setComponentAuth: React.Dispatch<React.SetStateAction<ComponentAuthState>>;
 //   showModal: boolean;
 //   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-//   componentLevelLoader: ComponentLoaderState;
-//   setComponentLevelLoader: React.Dispatch<React.SetStateAction<ComponentLoaderState>>;
 // openSearch: Search;
 // setOpenSearch: React.Dispatch<React.SetStateAction<Search>>;
+  componentLevelLoader: ComponentLoaderState;
+  setComponentLevelLoader: React.Dispatch<React.SetStateAction<ComponentLoaderState>>;
   pageLevelLoader: boolean;
   setPageLevelLoader: React.Dispatch<React.SetStateAction<boolean>>;
   openAlert: AlertState;
@@ -76,10 +76,10 @@ export default function GlobalState({
 
   const [pageLevelLoader, setPageLevelLoader] = useState(false);
 
-  // const [componentLevelLoader, setComponentLevelLoader] = useState<ComponentLoaderState>({
-  //   loading: false,
-  //   id: "",
-  // });
+  const [componentLevelLoader, setComponentLevelLoader] = useState<ComponentLoaderState>({
+    loading: false,
+    id: "",
+  });
 
   return (
     <GlobalContext.Provider
@@ -87,7 +87,9 @@ export default function GlobalState({
         openAlert,
         setOpenAlert,
         pageLevelLoader,
-        setPageLevelLoader
+        setPageLevelLoader,
+        componentLevelLoader,
+        setComponentLevelLoader
       }}
     >
       {children}

@@ -31,7 +31,7 @@ export const EditWorkSpaceForm = ({
   initialValues,
 }: editWorkSpaceFromProps) => {
   const router = useRouter();
-  const { pageLevelLoader, setPageLevelLoader, setOpenAlert } = useContext(GlobalContext)!;
+  const { pageLevelLoader, setPageLevelLoader, setOpenAlert, componentLevelLoader, setComponentLevelLoader } = useContext(GlobalContext)!;
 
   const { mutate } = useUpdateWorkspace();
   const { mutate: deleteWorkspace } = useDeleteWorkspace();
@@ -104,7 +104,7 @@ export const EditWorkSpaceForm = ({
       return {};
     },
     onSubmit: (values) => {
-      setPageLevelLoader(true);
+      setComponentLevelLoader({loading: true, id: "save-changes"});
       mutate(
         { form: values, param: { workspaceId: initialValues.$id } },
         {
@@ -192,12 +192,12 @@ export const EditWorkSpaceForm = ({
               </Button>
 
               <Button
-                size="lg"
+                size="md"
                 variant="primary"
                 type="submit"
                 disabled={pageLevelLoader}
               >
-                  "Save Changes"
+                {componentLevelLoader.loading && componentLevelLoader.id === 'save-changes' ? <CircleLoader color={"#D3D3D3"} loading={true} /> : "Save Changes" }
               </Button>
             </div>
           </form>
@@ -230,7 +230,6 @@ export const EditWorkSpaceForm = ({
               variant="destructive"
               type="button"
               onClick={handleResetInviteCode}
-              disabled={pageLevelLoader}
             >
               Reset Invite Link
             </Button>

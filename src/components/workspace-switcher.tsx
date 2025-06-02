@@ -39,7 +39,7 @@ export const WorkSpaceSwitcher = () => {
                 <RiAddCircleFill onClick={open} className="size-5  text-neutral-500 cursor-pointer hover:opacity-75 transition"/>
             </div>
             <SelectWorkspace onValueChange={onSelect} value={workspaceId}  items={documents} >
-                <SelectTrigger className="w-full bg-neutral-200 font-medium p-4">
+                <SelectTrigger className="w-full bg-neutral-200 font-medium p-2">
                     <SelectValue placeholder="No workspace selected" />
                 </SelectTrigger>
                 <SelectContent>

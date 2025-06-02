@@ -2,22 +2,22 @@
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { twMerge } from "tailwind-merge";
-interface WorkSpaceAvatarProps {
+interface ProjectAvatarProps {
   image?: string;
   name: string;
   className?: string;
 }
 
-export const WorkspaceAvatar = ({
+export const ProjectAvatar = ({
   image,
   name,
   className,
-}: WorkSpaceAvatarProps) => {
+}: ProjectAvatarProps) => {
   if (image) {
     return (
       <div
         className={twMerge(
-          "size-10 relative rounded-lg overflow-hidden",
+          "size-10 text-md relative  overflow-hidden",
           className
         )}
       >
@@ -27,8 +27,8 @@ export const WorkspaceAvatar = ({
   }
 
   return (
-    <Avatar className={twMerge("size-10 rounded-md", className)}>
-        <AvatarFallback className="text-white bg-primarygreen font-semibold text-lg uppercase">
+    <Avatar className={twMerge("size-8", className)}>
+        <AvatarFallback className="text-white bg-primarygreen font-semibold text-md uppercase">
             {name[0]}
         </AvatarFallback>
     </Avatar>
