@@ -4,27 +4,26 @@ import { InferRequestType, InferResponseType } from "hono";
 import { client } from "@/lib/rpc";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
-import type { WorkspaceResponse } from "../interface"
 import { useRouter } from "next/navigation";
 
+type ResponseType = InferResponseType<typeof client.api.projects[":projectId"]["$patch"], 200>;
+type RequestType = InferRequestType<typeof client.api.projects[":projectId"]["$patch"]>;
 
-type ResponseType = InferResponseType<(typeof client.api.workspaces)[":workspaceId"]["$patch"], 200>;
-type RequestType = InferRequestType<(typeof client.api.workspaces)[":workspaceId"]["$patch"]>;
-
-export const useUpdateWorkspace = () => {
+export const useUpdateProject = () => {
   const router = useRouter();
+
   const { setOpenAlert, setComponentLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ form, param }) => {
-      const response = await client.api.workspaces[":workspaceId"]["$patch"]({ form, param });
+    mutationFn: async ({ form,param }) => {
+      const response = await client.api.projects[":projectId"]["$patch"]({ form , param });
 
       const body = await response.json();
 
       if (!response.ok) {
-        throw new Error((body as { message: string }).message || "Failed to update workspace");
+        throw new Error((body as { message: string }).message || "Failed to update project");
       }
 
       return body as ResponseType;
@@ -33,21 +32,21 @@ export const useUpdateWorkspace = () => {
     onSuccess: ({data}) => {
       setOpenAlert({
         status: true,
-        message: "workspace updated",
+        message: "project updated",
         severity: "success",
       });
       router.refresh();
-      queryClient.invalidateQueries({queryKey : ["workspaces"]});  
-      queryClient.invalidateQueries({queryKey : ["workspace", data.$id]});  
+      queryClient.invalidateQueries({queryKey : ["projects"]});  
+      queryClient.invalidateQueries({queryKey : ["project", data.$id]});  
     },onError: (error) => {
       setOpenAlert({
         status: true,
-        message: error.message || "updated workspace failed",
+        message: error.message || "updated project failed",
         severity: "error",
       });
     },
     onSettled: () => {
-      setComponentLevelLoader({loading: false, id: "save-changes"});
+      setComponentLevelLoader({loading: false, id: "create-project"});
     },
   });
 

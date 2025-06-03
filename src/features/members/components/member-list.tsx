@@ -53,12 +53,9 @@ export const MemberList = () => {
             window.location.reload();
         }
     })
-
-
-
   }
 
-
+  const href = `/workspaces/${workspaceId}`;
 
 
   return (
@@ -66,9 +63,11 @@ export const MemberList = () => {
         <ConfirmDialog />
       <CardHeader className="flex flex-row items-center gap-4 p-7 space-y-0">
         <Button variant="secondary" size="sm">
-          <Link href={`workspaces/${workspaceId}`} />
-          <ArrowLeftIcon className="size-4 mr-2" />
-          Back
+          <Link href={href} className="flex items-center gap-2">
+              <ArrowLeftIcon className="size-4 mr-2" />
+              Back
+          </Link>
+
         </Button>
         <CardTitle className="text-xl font-bold">Member List</CardTitle>
       </CardHeader>

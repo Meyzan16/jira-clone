@@ -6,7 +6,8 @@ import { error } from "console";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
-import { createProjectSchema } from "../schema";
+import { createProjectSchema, updateProjectSchema } from "../schema";
+import { Project } from "../types";
 
 const app = new Hono()
 .post("/",
@@ -112,6 +113,78 @@ const app = new Hono()
 
 
   }
-);
+)
+.patch(
+    "/:projectId",
+    zValidator("form", updateProjectSchema),
+    sessionMiddleware,
+    async (c) => {
+      try {
+        const databases = c.get("databases");
+        const storage = c.get("storage");
+        const user = c.get("user");
+
+        if (!user) {
+          return c.json({ message: "User not authenticated" }, 400);
+        }
+
+        const { projectId } = c.req.param();
+        const { name, image } = c.req.valid("form");
+
+        const existinProject =  await databases.getDocument<Project>(
+          DATABASE_ID,
+          PROJECTS_ID,
+          projectId
+        );
+
+
+        const member = await getMember({
+          databases,
+          workspaceId: existinProject.workspaceId,
+          userId: user.$id,
+        });
+
+        if (!member) {
+          return c.json({ message: "Unauthorized" }, 401);
+        }
+
+        let uploadImgaeUrl: string | undefined;
+
+        if (image instanceof File) {
+          const file = await storage.createFile(
+            IMAGES_BUCKED_ID,
+            ID.unique(),
+            image
+          );
+
+          const arrayBuffer = await storage.getFileView(
+            IMAGES_BUCKED_ID,
+            file.$id
+          );
+
+          uploadImgaeUrl = `data:image/png;base64,${Buffer.from(
+            arrayBuffer
+          ).toString("base64")}`;
+        } else {
+          uploadImgaeUrl = image;
+        }
+
+        const project = await databases.updateDocument(
+          DATABASE_ID,
+          PROJECTS_ID,
+          projectId,
+          {
+            name,
+            imageUrl: uploadImgaeUrl,
+          }
+        );
+
+        return c.json({ data: project });
+        
+      } catch (error) {
+        return c.json({ message: `Internal Server Error ${error}` }, 500);
+      }
+    }
+  );
 
 export default app;
