@@ -6,24 +6,24 @@ import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
 import { useRouter } from "next/navigation";
 
-type ResponseType = InferResponseType<typeof client.api.projects[":projectId"]["$patch"], 200>;
-type RequestType = InferRequestType<typeof client.api.projects[":projectId"]["$patch"]>;
+type ResponseType = InferResponseType<typeof client.api.projects[":projectId"]["$delete"], 200>;
+type RequestType = InferRequestType<typeof client.api.projects[":projectId"]["$delete"]>;
 
-export const useUpdateProject = () => {
+export const useDeleteProject = () => {
   const router = useRouter();
 
-  const { setOpenAlert, setComponentLevelLoader } = useContext(GlobalContext)!;
+  const { setOpenAlert, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ form,param }) => {
-      const response = await client.api.projects[":projectId"]["$patch"]({ form , param });
+    mutationFn: async ({ param }) => {
+      const response = await client.api.projects[":projectId"]["$delete"]({ param });
 
       const body = await response.json();
 
       if (!response.ok) {
-        throw new Error((body as { message: string }).message || "Failed to update project");
+        throw new Error((body as { message: string }).message || "Failed to delete project");
       }
 
       return body as ResponseType;
@@ -32,7 +32,7 @@ export const useUpdateProject = () => {
     onSuccess: ({data}) => {
       setOpenAlert({
         status: true,
-        message: "project updated",
+        message: "project deleted",
         severity: "success",
       });
       router.refresh();
@@ -41,12 +41,12 @@ export const useUpdateProject = () => {
     },onError: (error) => {
       setOpenAlert({
         status: true,
-        message: error.message || "updated project failed",
+        message: error.message || "deleted project failed",
         severity: "error",
       });
     },
     onSettled: () => {
-      setComponentLevelLoader({loading: false, id: "updated-project"});
+      setPageLevelLoader(false);
     },
   });
 

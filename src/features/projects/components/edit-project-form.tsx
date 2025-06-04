@@ -18,6 +18,7 @@ import { ArrowLeftIcon, CopyIcon } from "lucide-react";
 import { useConfirm } from "@/hooks/use-confirm";
 import Input from "@/components/ui/input";
 import { createOrUpdateProjectControls } from "@/constants/projectsControls";
+import { useDeleteProject } from "../api/use-delete-project";
 
 interface EditProjectFormProps {
   onCancel?: () => void;
@@ -28,20 +29,32 @@ export const EditProjectForm = ({
   onCancel,
   initialValues,
 }: EditProjectFormProps) => {
+  console.log("initialValues", initialValues);
   const router = useRouter();
-  const { pageLevelLoader, componentLevelLoader, setComponentLevelLoader } = useContext(GlobalContext)!;
+  const { pageLevelLoader, componentLevelLoader, setComponentLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const { mutate } = useUpdateProject();
 
-  //hooks confirm
+  const { mutate: deleteProject } = useDeleteProject();
   const [DeleteDialog, confirmDelete] = useConfirm(
-    "Delete Workspace",
+    "Delete project",
     "This action cannot be undone"
   );
 
    const handleDelete = async () => {
     const ok = await confirmDelete();
     if (!ok) return;
+    setPageLevelLoader(true);
+    deleteProject(
+      {
+        param: { projectId: initialValues.$id },
+      },
+      {
+        onSuccess: () => {
+          window.location.href = `/workspaces/${initialValues.workspaceId}`;
+        },
+      }
+    )
   };
 
 
@@ -58,7 +71,7 @@ export const EditProjectForm = ({
       return {};
     },
     onSubmit: (values) => {
-      setComponentLevelLoader({loading: true, id: "save-changes"});
+      setComponentLevelLoader({loading: true, id: "updated-project"});
       mutate(
         { form: values, param: { projectId: initialValues.$id } }
       );
@@ -144,7 +157,7 @@ export const EditProjectForm = ({
                 type="submit"
                 disabled={pageLevelLoader}
               >
-                {componentLevelLoader.loading && componentLevelLoader.id === 'save-changes' ? <CircleLoader color={"#D3D3D3"} loading={true} /> : "Save Changes" }
+                {componentLevelLoader.loading && componentLevelLoader.id === 'updated-project' ? <CircleLoader color={"#D3D3D3"} loading={true} /> : "Updated Changes" }
               </Button>
             </div>
           </form>
@@ -165,7 +178,6 @@ export const EditProjectForm = ({
               variant="destructive"
               type="button"
               onClick={handleDelete}
-              disabled={pageLevelLoader}
             >
               Delete Project
             </Button>

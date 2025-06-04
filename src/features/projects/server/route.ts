@@ -185,6 +185,45 @@ const app = new Hono()
         return c.json({ message: `Internal Server Error ${error}` }, 500);
       }
     }
-  );
+)
+.delete(
+    "/:projectId",
+    sessionMiddleware,
+    async (c) => {
+      try {
+        const databases = c.get("databases");
+        const user = c.get("user");
+
+        if (!user) {
+          return c.json({ message: "User not authenticated" }, 400);
+        }
+
+        const { projectId } = c.req.param();
+
+        const existinProject =  await databases.getDocument<Project>(
+          DATABASE_ID,
+          PROJECTS_ID,
+          projectId
+        );
+
+        const member = await getMember({
+          databases,
+          workspaceId: existinProject.workspaceId,
+          userId: user.$id,
+        });
+
+        if (!member) {
+          return c.json({ message: "Unauthorized" }, 401);
+        }
+
+        await databases.deleteDocument(DATABASE_ID, PROJECTS_ID, projectId);
+
+        return c.json({ data: { $id : existinProject.$id } });
+      } catch (error) {
+        return c.json({ message: `Internal Server Error ${error}` }, 500);
+      }
+    }
+  ) 
+  ;
 
 export default app;
