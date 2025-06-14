@@ -45,8 +45,9 @@ export const CreateProjectForm = ({ onCancel }: createProjectFormProps) => {
       mutate(
         { form: values },
         {
-          onSuccess: () => {
+          onSuccess: ({data}) => {
             formik.resetForm();
+            router.push(`/workspaces/${workspaceId}/project/${data.$id}`);
             // TODO : redirect to project screen
           },
         }

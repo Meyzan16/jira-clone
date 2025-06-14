@@ -6,7 +6,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 interface InputProps {
   label: string;
   type: string;
-  value: string;
+  value: string | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   id: string;
   errors?: string;
@@ -31,8 +31,6 @@ const Input: FC<InputProps> = ({
     setIsFilledOrFocused(!!value && value.toString().length > 0);
   }, [value]);
 
-  // const isFilledOrFocused = value.length > 0;
-
   return (
     <div className={`relative w-full ${errors && touched ? "mb-4" : "mb-4"}`}>
       <label
@@ -56,7 +54,6 @@ const Input: FC<InputProps> = ({
           setIsFilledOrFocused(e.target.value.length > 0);
         }}
         onFocus={() => setIsFilledOrFocused(true)}
-        onBlur={() => setIsFilledOrFocused(value.length > 0)}
         aria-label={label}
         className={`w-full px-4 pt-5 pb-2 border rounded-full  
                     font-poppins 
