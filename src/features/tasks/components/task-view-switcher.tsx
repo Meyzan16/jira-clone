@@ -73,20 +73,20 @@ export const TaskViewSwitcher = () => {
         <DottedSeparator className="my-5" />
         {isLoadingTasks ? (
           <div className="w-full border rounded-lg h-[200px] flex flex-col items-center justify-center">
-            <CircleLoader color={"#D3D3D3"} loading={true} />
+            <CircleLoader color={"#ffffff"} loading={true} />
           </div>
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              {JSON.stringify(tasks)}
+              {/* {JSON.stringify(tasks)} */} table
             </TabsContent>
 
             <TabsContent value="kanban" className="mt-0">
-              {JSON.stringify(tasks)}
+              {/* {JSON.stringify(tasks)} */} kanban
             </TabsContent>
 
             <TabsContent value="calendar" className="mt-0">
-              {JSON.stringify(tasks)}
+              {/* {JSON.stringify(tasks)} */} calendar
             </TabsContent>
           </>
         )}

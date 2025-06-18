@@ -191,7 +191,7 @@ export const EditWorkSpaceForm = ({
                 type="submit"
                 disabled={pageLevelLoader}
               >
-                {componentLevelLoader.loading && componentLevelLoader.id === 'save-changes' ? <CircleLoader color={"#D3D3D3"} loading={true} /> : "Save Changes" }
+                {componentLevelLoader.loading && componentLevelLoader.id === 'save-changes' ? <CircleLoader color={"#ffffff"} loading={true} /> : "Save Changes" }
               </Button>
             </div>
           </form>

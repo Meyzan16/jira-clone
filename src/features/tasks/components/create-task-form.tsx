@@ -161,7 +161,7 @@ export const CreateTaskForm = ({
             <Button size="lg" variant="primary" type="submit">
               {componentLevelLoader.loading &&
               componentLevelLoader.id === "create-tasks" ? (
-                <CircleLoader color={"#D3D3D3"} loading={true} />
+                <CircleLoader color={"#ffffff"} loading={true} />
               ) : (
                 "Create"
               )}

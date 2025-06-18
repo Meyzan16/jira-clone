@@ -31,7 +31,7 @@ export const CreateTaskFormWrapper = ({ onCancel }: CreateTaskModalWrapperProps)
         return (
             <Card className="w-full h-[714px] border-none shadow-none">
                 <CardContent className="flex items-center justify-center h-full">
-                    <CircleLoader color={"#D3D3D3"} loading={true} />
+                    <CircleLoader color={"#ffffff"} loading={true} />
                 </CardContent>
             </Card>
             )

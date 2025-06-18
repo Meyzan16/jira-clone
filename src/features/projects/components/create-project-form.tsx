@@ -106,7 +106,7 @@ export const CreateProjectForm = ({ onCancel }: createProjectFormProps) => {
             </Button>
 
             <Button size="lg" variant="primary" type="submit">
-              {componentLevelLoader.loading && componentLevelLoader.id === 'create-project' ? <CircleLoader color={"#D3D3D3"} loading={true} /> : "Create" }
+              {componentLevelLoader.loading && componentLevelLoader.id === 'create-project' ? <CircleLoader color={"#ffffff"} loading={true} /> : "Create" }
             </Button>
           </div>
         </form>
