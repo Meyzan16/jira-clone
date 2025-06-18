@@ -6,6 +6,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "./calendar";
 
 interface DatePickerProps {
+  onInput?: boolean;
   value: Date | undefined;
   onChange: (date: Date) => void;
   onBlur?: () => void;
@@ -14,6 +15,7 @@ interface DatePickerProps {
 }
 
 export const DatePicker = ({
+  onInput = false,
   value,
   onChange,
   onBlur,
@@ -47,9 +49,11 @@ export const DatePicker = ({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className={`w-full flex items-center gap-2 rounded-full border p-3 text-left text-sm font-normal shadow-sm bg-white ${
-          !value ? "text-muted-foreground" : ""
-        }`}
+        className={`w-full flex items-center gap-2 border  text-left text-sm font-normal shadow-sm bg-white 
+          ${!value ? "text-muted-foreground" : ""}
+          ${onInput ? "rounded-full  p-3" : "rounded-lg  py-[5px] px-3"}
+
+        `}
       >
         <CalendarIcon className="h-4 w-4" />
         {value ? format(value, "PPP") : <span>{placeholder}</span>}

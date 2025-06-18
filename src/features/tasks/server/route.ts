@@ -6,7 +6,7 @@ import getMember from "@/features/members/utils";
 import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from "@/config";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
-import { TaskStatus } from "../types";
+import { TaskPriority, TaskStatus } from "../types";
 import { createAdminClient } from "@/lib/appwrite";
 import { Project } from "@/features/projects/types";
 
@@ -21,7 +21,7 @@ const app = new Hono()
             projectId: z.string().nullish(),
             assigneeId: z.string().nullish(),
             status: z.nativeEnum(TaskStatus).nullish(),
-            priority: z.nativeEnum(TaskStatus).nullish(),
+            priority: z.nativeEnum(TaskPriority).nullish(),
             search: z.string().nullish(),
             dueDate: z.string().nullish(),
         })

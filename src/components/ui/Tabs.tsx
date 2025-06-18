@@ -6,6 +6,7 @@ interface TabsProps {
   defaultValue: string
   children: ReactNode
   className?: string
+  onValueChange?: (value: string) => void
 }
 
 interface TabsListProps {
@@ -30,11 +31,16 @@ const TabsContext = React.createContext<{
   setActiveValue: (value: string) => void
 } | null>(null)
 
-export function Tabs({ defaultValue, children, className }: TabsProps) {
+export function Tabs({ defaultValue, onValueChange, children, className }: TabsProps) {
   const [activeValue, setActiveValue] = useState(defaultValue)
 
+  const handleChange = (newValue: string) => {
+    setActiveValue(newValue)
+    onValueChange?.(newValue)
+  }
+
   return (
-    <TabsContext.Provider value={{ activeValue, setActiveValue }}>
+    <TabsContext.Provider value={{ activeValue, setActiveValue: handleChange }}>
       <div className={className}>{children}</div>
     </TabsContext.Provider>
   )

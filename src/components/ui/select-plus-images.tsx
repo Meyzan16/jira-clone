@@ -127,9 +127,11 @@ export const SelectValue = ({ placeholder }: { placeholder?: string }) => {
 // Content
 interface SelectContentProps {
   children: ReactNode;
+  fitContent?: boolean; // default: false
+  className?: string;
 }
 
-export const SelectContent = ({ children }: SelectContentProps) => {
+export const SelectContent = ({ children, fitContent = false }: SelectContentProps) => {
   const context = useContext(SelectContext);
   if (!context) throw new Error("SelectContent must be used within SelectWorkspace");
   const { open, setOpen } = context;
@@ -150,12 +152,23 @@ export const SelectContent = ({ children }: SelectContentProps) => {
   return (
     <div
       ref={contentRef}
-      className="absolute z-50 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-lg"
+      className={`absolute z-50 mt-1  rounded-md border border-gray-200 bg-white shadow-lg 
+        ${fitContent ? "w-max min-w-[10rem] max-w-[300px]" : "w-full" }`}
     >
       <div className="max-h-60 overflow-auto py-1">{children}</div>
     </div>
   );
 };
+
+export function SelectSeparator({ className = "" }: { className?: string }) {
+  return (
+    <div
+      role="separator"
+      className={`-mx-1 my-1 h-px bg-muted ${className}`}
+    />
+  );
+}
+
 
 // Item
 interface SelectItemProps {

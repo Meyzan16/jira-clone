@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormik } from "formik";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DottedSeparator from "@/components/ui/dotted-separator";
@@ -10,15 +10,12 @@ import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/ui/circleloader";
 import { useRouter } from "next/navigation";
 
-import UploadImage from "@/components/ui/uploadImage";
 import { useCreateTasks } from "../api/use-create-tasks";
 import { createTaskSchema } from "../schema";
-import { createOrUpdateProjectControls } from "@/constants/projectsControls";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { createOrUpdateTaskControls } from "@/constants/tasksControl";
 import { DatePicker } from "@/components/ui/date-picker";
 import SelectComponent from "@/components/ui/select";
-import { assert } from "console";
 import { TaskPriority, TaskStatus } from "../types";
 
 interface CreateTaskFormProps {
@@ -33,7 +30,6 @@ export const CreateTaskForm = ({
   memberOptions,
 }: CreateTaskFormProps) => {
   const workspaceId = useWorkspaceId();
-  const router = useRouter();
   const { setComponentLevelLoader, componentLevelLoader } =
     useContext(GlobalContext)!;
 
@@ -66,7 +62,6 @@ export const CreateTaskForm = ({
         status: values.status as TaskStatus,
         priority: values.priority as TaskPriority,
       };
-      console.log("Form submitted with values:", values);
       setComponentLevelLoader({ loading: true, id: "create-tasks" });
       mutate(
         { json: payload },
@@ -112,6 +107,7 @@ export const CreateTaskForm = ({
             ) : item.componentType === "date" ? (
               <div key={index} className="space-y-1">
                 <DatePicker
+                  onInput
                   value={
                     values[item.id as keyof typeof values] as Date | undefined
                   }

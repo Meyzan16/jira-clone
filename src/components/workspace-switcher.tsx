@@ -2,7 +2,7 @@
 
 import {RiAddCircleFill} from "react-icons/ri";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace"
-import { SelectContent, SelectItem, SelectTrigger, SelectValue, SelectWorkspace } from "./ui/select-workspace";
+import { SelectContent, SelectItem, SelectTrigger, SelectValue, SelectWorkspace } from "./ui/select-plus-images";
 import { WorkspaceAvatar } from "@/features/workspaces/components/workspace-avatar";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
