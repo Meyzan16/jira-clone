@@ -11,6 +11,8 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import CircleLoader from "@/components/ui/circleloader";
 import { DataFilters } from "./data-filters";
 import { useTaskFilters } from "../hooks/use-task-filters";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
 
 export const TaskViewSwitcher = () => {
   const [{
@@ -73,12 +75,12 @@ export const TaskViewSwitcher = () => {
         <DottedSeparator className="my-5" />
         {isLoadingTasks ? (
           <div className="w-full border rounded-lg h-[200px] flex flex-col items-center justify-center">
-            <CircleLoader color={"#ffffff"} loading={true} />
+            <CircleLoader color={"#D3D3D3"} loading={true} />
           </div>
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              {/* {JSON.stringify(tasks)} */} table
+              <DataTable columns={columns} data={tasks?.documents ?? []} />
             </TabsContent>
 
             <TabsContent value="kanban" className="mt-0">
