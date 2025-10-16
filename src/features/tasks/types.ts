@@ -16,6 +16,7 @@ export enum TaskPriority {
 export type Task = Models.Document & {
   name: string,
   status: TaskStatus,
+  workspaceId: string,
   priority: TaskPriority,
   assigneeId: string,
   projectId: string,

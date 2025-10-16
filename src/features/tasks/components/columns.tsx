@@ -108,7 +108,7 @@ export const columns: ColumnDef<Task>[] = [
     }
   },
   {
-    accessorKey: "name",
+    accessorKey: "duedate",
      header: ({ column }) => {
       return (
         <Button

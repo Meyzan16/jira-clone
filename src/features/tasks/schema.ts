@@ -11,6 +11,6 @@ export const createTaskSchema = z.object({
     status: z.nativeEnum(TaskStatus, {required_error : "Status is Required"}),
     priority: z.nativeEnum(TaskPriority, {required_error : "Priority is Required"}),
     projectId: z.string().trim().min(1, "Project ID is required"),
-    // description: z.string().optional(),
+    description: z.string().optional(),
     // position
 });
