@@ -15,6 +15,7 @@ import { createOrUpdateTaskControls } from "@/constants/tasksControl";
 import { DatePicker } from "@/components/ui/date-picker";
 import SelectComponent from "@/components/ui/select";
 import { Task, TaskPriority, TaskStatus } from "../types";
+import { useUpdateTask } from "../api/use-update-tasks";
 
 interface EditTaskFormProps {
   onCancel?: () => void;
@@ -67,8 +68,9 @@ export const EditTaskForm = ({
   const { setComponentLevelLoader, componentLevelLoader } =
     useContext(GlobalContext)!;
 
-  const { mutate, isPending } = useCreateTasks();
+  const { mutate, isPending } = useUpdateTask();
 
+  //useMemo hanya dihitung ulang saat initialValues/workspaceId berubah (hemat render).
   const initialFormValues = useMemo(
     () => toFormValues(initialValues, workspaceId),
     [initialValues, workspaceId]
@@ -91,18 +93,22 @@ export const EditTaskForm = ({
       return {};
     },
     onSubmit: (values) => {
-      const payload = {
-        ...values,
-        status: values.status as TaskStatus,
-        priority: values.priority as TaskPriority,
+      const json = {
+        name: values.name,
+        dueDate: values.dueDate ?? undefined,   
+        assigneeId: values.assigneeId || undefined,
+        status: values.status || undefined,     
+        priority: values.priority || undefined, 
+        projectId: values.projectId || undefined
       };
-      setComponentLevelLoader({ loading: true, id: "create-tasks" });
+
+      const param = { taskId: initialValues.$id };
+      setComponentLevelLoader({ loading: true, id: "edit-tasks" });
       mutate(
-        { json: payload },
+        { json, param }, 
         {
-          onSuccess: () => {
-            // untuk edit biasanya tidak reset, tapi ikuti kebutuhanmu
-            // formik.resetForm();
+          onSuccess: () => {  
+            formik.resetForm();
             onCancel?.();
           },
           onSettled: () => {
@@ -121,8 +127,6 @@ export const EditTaskForm = ({
     handleChange,
     handleSubmit,
   } = formik;
-
-  const submitLabel = initialValues ? "Save changes" : "Create";
 
   return (
     <Card className="w-full h-full border-none shadow-none">
@@ -211,10 +215,10 @@ export const EditTaskForm = ({
 
             <Button size="lg" variant="primary" type="submit" disabled={isPending}>
               {componentLevelLoader.loading &&
-              componentLevelLoader.id === "create-tasks" ? (
+              componentLevelLoader.id === "edit-tasks" ? (
                 <CircleLoader color={"#ffffff"} loading={true} />
               ) : (
-                submitLabel
+                "Save changes"
               )}
             </Button>
           </div>
