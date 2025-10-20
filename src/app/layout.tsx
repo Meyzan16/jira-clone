@@ -1,5 +1,9 @@
+
 import type { Metadata } from "next";
-import "./globals.css";
+
+import "./globals.css"; // tailwind global
+import "react-big-calendar/lib/css/react-big-calendar.css"; // calendar style
+
 import AosInit from "@/components/ui/aos";
 import GlobalState from "./context";
 import {QueryProviders} from "@/components/query-provider";

@@ -8,11 +8,11 @@ interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const statusVariantClasses: Record<TaskStatus, string> = {
+  [TaskStatus.BACKLOG]: "border-transparent bg-pink-400 text-primary hover:bg-pink-400/80",
   [TaskStatus.TODO]: "border-transparent bg-red-400 text-primary hover:bg-red-400/80",
   [TaskStatus.IN_PROGRESS]: "border-transparent bg-yellow-400 text-primary hover:bg-yellow-400/80",
   [TaskStatus.IN_PREVIEW]: "border-transparent bg-blue-400 text-primary hover:bg-blue-400/80",
   [TaskStatus.DONE]: "border-transparent bg-emerald-400 text-primary hover:bg-emerald-400/80",
-  [TaskStatus.BACKLOG]: "border-transparent bg-pink-400 text-primary hover:bg-pink-400/80",
 };
 
 const priorityVariantClasses: Record<TaskPriority, string> = {
