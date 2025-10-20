@@ -79,7 +79,7 @@ export const JoinWorkspaceForm = ({
             disabled={pageLevelLoader}
           >
              {pageLevelLoader === true ? (
-                <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
+                <CircleLoader color={"#D3D3D3"} loading={pageLevelLoader} />
               ) : (
                 "Join"
               )}

@@ -103,7 +103,7 @@ export const CreateWorkSpaceForm = ({ onCancel }: createWorkSpaceFromProps) => {
 
             <Button size="lg" variant="primary" type="submit">
               {pageLevelLoader === true ? (
-                <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
+                <CircleLoader color={"#D3D3D3"} loading={pageLevelLoader} />
               ) : (
                 "Create Workspace"
               )}

@@ -10,10 +10,10 @@ import { TaskPriority, TaskStatus } from "../types";
 import { taskPriorityOptions, taskStatusOptions } from "@/utility/convert-options";
 
 interface DataFiltersProps {
-    hideProjectFiter?: boolean
+    hideProjectFilter?: boolean
 }
 
-export const DataFilters = ({hideProjectFiter} : DataFiltersProps) => {
+export const DataFilters = ({hideProjectFilter} : DataFiltersProps) => {
     const workspaceId = useWorkspaceId();
     const {data: projects, isLoading: isLoadingProjects} = useGetProjects({workspaceId})
     const {data: members, isLoading: isLoadingMembers} = useGetMembers({workspaceId})
@@ -134,27 +134,29 @@ export const DataFilters = ({hideProjectFiter} : DataFiltersProps) => {
                 </SelectContent>
             </SelectWorkspace>
 
-             {/* project */}
-            <SelectWorkspace
-                defaultValue={projectId ?? undefined}
-                onValueChange={(value) => onProjectChange(value)}
-            >
-                <SelectTrigger className="h-8">
-                    <div className="flex items-center pr-2">
-                        <FolderIcon className="size-7 pr-2" />
-                        <SelectValue placeholder="All projects" />
-                    </div>
-                </SelectTrigger>
-                <SelectContent fitContent>
-                    <SelectItem value="all"> All projects</SelectItem>
-                    <SelectSeparator />
-                   {projectOptions?.map((project) => (
-                        <SelectItem key={project.value} value={project.value}>
-                        {project.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </SelectWorkspace>
+            {/* project */}
+            {!hideProjectFilter && (
+                <SelectWorkspace
+                    defaultValue={projectId ?? undefined}
+                    onValueChange={(value) => onProjectChange(value)}
+                >
+                    <SelectTrigger className="h-8">
+                        <div className="flex items-center pr-2">
+                            <FolderIcon className="size-7 pr-2" />
+                            <SelectValue placeholder="All projects" />
+                        </div>
+                    </SelectTrigger>
+                    <SelectContent fitContent>
+                        <SelectItem value="all"> All projects</SelectItem>
+                        <SelectSeparator />
+                    {projectOptions?.map((project) => (
+                            <SelectItem key={project.value} value={project.value}>
+                            {project.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </SelectWorkspace>
+            )}
 
             {/* Date picker */}
             <DatePicker 

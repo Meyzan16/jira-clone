@@ -157,7 +157,7 @@ export const EditProjectForm = ({
                 type="submit"
                 disabled={pageLevelLoader}
               >
-                {componentLevelLoader.loading && componentLevelLoader.id === 'updated-project' ? <CircleLoader color={"#ffffff"} loading={true} /> : "Updated Changes" }
+                {componentLevelLoader.loading && componentLevelLoader.id === 'updated-project' ? <CircleLoader color={"#D3D3D3"} loading={true} /> : "Updated Changes" }
               </Button>
             </div>
           </form>

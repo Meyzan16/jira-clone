@@ -28,7 +28,7 @@ const UserButton = () => {
   if (isLoading) {
     return (
       <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
-        <CircleLoader color={"#ffffff"} loading={true} />
+        <CircleLoader color={"#D3D3D3"} loading={true} />
       </div>
     );
   }

@@ -36,7 +36,7 @@ export const EditTaskFormWrapper = ({ onCancel, id }: EditTaskFormWrapperProps) 
         return (
             <Card className="w-full h-[714px] border-none shadow-none">
                 <CardContent className="flex items-center justify-center h-full">
-                    <CircleLoader color={"#ffffff"} loading={true} />
+                    <CircleLoader color={"#D3D3D3"} loading={true} />
                 </CardContent>
             </Card>
             )

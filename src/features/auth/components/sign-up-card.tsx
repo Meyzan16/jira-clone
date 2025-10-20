@@ -99,7 +99,7 @@ const SignUpCard = () => {
           <div className="flex flex-col mt-5">
             <Button size="lg" variant="primary" type="submit">
               {pageLevelLoader === true ? (
-                <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
+                <CircleLoader color={"#D3D3D3"} loading={pageLevelLoader} />
               ) : (
                 "Register"
               )}

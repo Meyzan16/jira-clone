@@ -216,7 +216,7 @@ export const EditTaskForm = ({
             <Button size="lg" variant="primary" type="submit" disabled={isPending}>
               {componentLevelLoader.loading &&
               componentLevelLoader.id === "edit-tasks" ? (
-                <CircleLoader color={"#ffffff"} loading={true} />
+                <CircleLoader color={"#D3D3D3"} loading={true} />
               ) : (
                 "Save changes"
               )}

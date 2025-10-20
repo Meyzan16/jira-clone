@@ -67,7 +67,7 @@ export const useConfirm = (
               className="w-full lg:w-auto"
             >
               {pageLevelLoader === true ? (
-                <CircleLoader color={"#ffffff"} loading={pageLevelLoader} />
+                <CircleLoader color={"#D3D3D3"} loading={pageLevelLoader} />
               ) : (
                 "Confirm"
               )}

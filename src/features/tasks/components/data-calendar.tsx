@@ -169,7 +169,7 @@ export const DataCalendar = ({ data }: DataCalendarProps) => {
             defaultView="month"
             toolbar
             showAllEvents
-            className="h-full"
+            className="h-full w-full"
             max={new Date(new Date().setFullYear(new Date().getFullYear() + 1 ))}
             formats={{
                 weekdayFormat: (date,culture, localizer) => localizer?.format(date, "EEE", culture) ?? ""
