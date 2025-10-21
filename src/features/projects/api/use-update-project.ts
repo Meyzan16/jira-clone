@@ -4,13 +4,11 @@ import { InferRequestType, InferResponseType } from "hono";
 import { client } from "@/lib/rpc";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
-import { useRouter } from "next/navigation";
 
 type ResponseType = InferResponseType<typeof client.api.projects[":projectId"]["$patch"], 200>;
 type RequestType = InferRequestType<typeof client.api.projects[":projectId"]["$patch"]>;
 
 export const useUpdateProject = () => {
-  const router = useRouter();
 
   const { setOpenAlert, setComponentLevelLoader } = useContext(GlobalContext)!;
 
@@ -35,7 +33,6 @@ export const useUpdateProject = () => {
         message: "project updated",
         severity: "success",
       });
-      router.refresh();
       queryClient.invalidateQueries({queryKey : ["projects"]});  
       queryClient.invalidateQueries({queryKey : ["project", data.$id]});  
     },onError: (error) => {

@@ -4,13 +4,11 @@ import { InferRequestType, InferResponseType } from "hono";
 import { client } from "@/lib/rpc";
 import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
-import { useRouter } from "next/navigation";
 
 type ResponseType = InferResponseType<typeof client.api.tasks[":taskId"]["$patch"], 200>;
 type RequestType = InferRequestType<typeof client.api.tasks[":taskId"]["$patch"]>;
 
 export const useUpdateTask = () => {
-  const  router = useRouter();
   const { setOpenAlert, setComponentLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
@@ -35,8 +33,6 @@ export const useUpdateTask = () => {
         severity: "success",
       });
 
-      router.refresh();
-      
       queryClient.invalidateQueries({queryKey : ["tasks"]});  
       queryClient.invalidateQueries({queryKey : ["task", data.$id]});  
     },onError: (error) => {

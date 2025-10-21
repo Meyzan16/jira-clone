@@ -101,12 +101,7 @@ export const EditWorkSpaceForm = ({
     onSubmit: (values) => {
       setComponentLevelLoader({loading: true, id: "save-changes"});
       mutate(
-        { form: values, param: { workspaceId: initialValues.$id } },
-        {
-          onSuccess: () => {
-            formik.resetForm();
-          },
-        }
+        { form: values, param: { workspaceId: initialValues.$id } }
       );
     },
   });
@@ -206,8 +201,8 @@ export const EditWorkSpaceForm = ({
               Use the invite link to add members to your workspace.
             </p>
             <div className="mt-4">
-               <div className="flex items-center gap-2 w-full" >
-                 <input className="py-4 px-2 w- full" disabled value={fullInviteLink} />
+               <div className="flex items-center justify-between gap-2 w-full" >
+                 <input className="py-4 px-2 w-full" disabled value={fullInviteLink} />
                  <Button
                     onClick={handleCopyInviteLink}
                     variant="secondary"

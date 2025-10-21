@@ -2,15 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
 
 import { client } from "@/lib/rpc";
-import { use, useContext } from "react";
+import { useContext } from "react";
 import { GlobalContext } from "@/app/context";
-import { useRouter } from "next/navigation";
 
 type ResponseType = InferResponseType<typeof client.api.tasks[":taskId"]["$delete"], 200>;
 type RequestType = InferRequestType<typeof client.api.tasks[":taskId"]["$delete"]>;
 
 export const useDeleteTask = () => {
-  const router = useRouter();
   const { setOpenAlert, setComponentLevelLoader } = useContext(GlobalContext)!;
 
   const queryClient = useQueryClient(); 
@@ -34,9 +32,6 @@ export const useDeleteTask = () => {
         message: "project task deleted",
         severity: "success",
       });
-
-      // router.refresh();
-
       queryClient.invalidateQueries({queryKey : ["tasks"]});  
       queryClient.invalidateQueries({queryKey : ["task", data.$id]});  
     },onError: (error) => {

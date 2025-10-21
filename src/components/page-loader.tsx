@@ -5,7 +5,7 @@ import React from 'react'
 
 const PageLoader = () => {
   return (
-    <div className="h-full min-h-screen flex items-center justify-center">
+    <div className="h-screen  flex items-center justify-center">
             <CircleLoader color={"#D3D3D3"} loading={true} />
     </div>
   )

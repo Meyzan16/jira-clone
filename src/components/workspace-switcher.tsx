@@ -1,13 +1,13 @@
 "use client"
 
 import {RiAddCircleFill} from "react-icons/ri";
-import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace"
 import { SelectContent, SelectItem, SelectTrigger, SelectValue, SelectWorkspace } from "./ui/select-plus-images";
 import { WorkspaceAvatar } from "@/features/workspaces/components/workspace-avatar";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useCreateWorkspaceModal } from "@/features/workspaces/hooks/use-create-workspace-modal";
 import { useMemo } from "react";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 
 // Tipe item untuk list workspace
 interface WorkspaceItem {
@@ -20,7 +20,7 @@ export const WorkSpaceSwitcher = () => {
     const workspaceId = useWorkspaceId();
 
     const router = useRouter();
-    const {data : workspaces} = useGetWorkspace();
+    const {data : workspaces} = useGetWorkspaces();
 
     const {open} = useCreateWorkspaceModal();
     
