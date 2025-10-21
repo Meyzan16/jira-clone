@@ -48,7 +48,7 @@ export const TaskBreadCrumbs = ({project, task} : TaskBreadCrumbsProps) => {
                 className="size-6 lg:size-8"
                 />
 
-            <Link href={`/workspace/${workspaceId}/project/${project.$id}`}>
+            <Link href={`/workspaces/${workspaceId}/project/${project.$id}`}>
                 <p className="text-sm lg:text-lg font-semibold  text-muted-foreground hover:opacity-75 transition">
                     {project.name}
                 </p>

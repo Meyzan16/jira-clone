@@ -16,7 +16,7 @@ interface TaskOverviewProps {
 
 const TaskOverview = ({task} : TaskOverviewProps) => {
 
-    const {open , close} =  useEditTaskModal();
+  const {open} =  useEditTaskModal();
 
 
   return (
