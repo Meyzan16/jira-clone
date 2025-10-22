@@ -16,6 +16,7 @@ export const ProjectIdClient = () => {
     const projectId = useProjectId();
 
     const {data: project , isLoading: isLoadingProject} = useGetProject({projectId});
+    
     const {data:analytics , isLoading : isLoadingAnalytics} = useGetProjectAnalytics({projectId});
 
     const isLoading  = isLoadingProject || isLoadingAnalytics;
