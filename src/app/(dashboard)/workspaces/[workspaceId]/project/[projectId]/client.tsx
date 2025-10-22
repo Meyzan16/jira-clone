@@ -2,9 +2,10 @@
 
 import { PageError } from "@/components/page-error"
 import PageLoader from "@/components/page-loader"
+import { Analytics } from "@/components/analytics"
 import { Button } from "@/components/ui/button"
 import { useGetProject } from "@/features/projects/api/use-get-project"
-import { useGetProjects } from "@/features/projects/api/use-get-projects"
+import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics"
 import { ProjectAvatar } from "@/features/projects/components/project-avatar"
 import { useProjectId } from "@/features/projects/hooks/use-project-id"
 import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher"
@@ -14,13 +15,17 @@ import Link from "next/link"
 export const ProjectIdClient = () => {
     const projectId = useProjectId();
 
-    const {data , isLoading} = useGetProject({projectId});
+    const {data: project , isLoading: isLoadingProject} = useGetProject({projectId});
+    const {data:analytics , isLoading : isLoadingAnalytics} = useGetProjectAnalytics({projectId});
+
+    const isLoading  = isLoadingProject || isLoadingAnalytics;
+
 
     if(isLoading) {
         return <PageLoader />
     }
 
-    if(!data) {
+    if(!project) {
             return <PageError message="Project Not Found" />
     }
 
@@ -29,17 +34,17 @@ export const ProjectIdClient = () => {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-x-2 bg-gray-200 text-dark hover:bg-gray-300 px-4 py-2 rounded-lg ">
               <ProjectAvatar
-                name={data.name}
-                image={data.imageUrl}
+                name={project.name}
+                image={project.imageUrl}
                 className="size-10"
               />
-              <p className="text-xs md:text-md font-semibold">{data.name}</p>
+              <p className="text-xs md:text-md font-semibold">{project.name}</p>
             </div>
 
             <div>
               <Button variant="secondary" size="sm" className="text-sm">
                 <Link
-                  href={`/workspaces/${data.workspaceId}/project/${data.$id}/settings`}
+                  href={`/workspaces/${project.workspaceId}/project/${project.$id}/settings`}
                   className="flex items-center gap-2 py-2 px-4"
                 >
                   <PencilIcon className="size-4 mr-2" />
@@ -47,8 +52,12 @@ export const ProjectIdClient = () => {
                 </Link>
               </Button>
             </div>
-            
           </div>
+
+          {analytics ? (
+            <Analytics data={analytics} />
+          ): null
+          }
 
           <TaskViewSwitcher hideProjectFilter />
         </div>

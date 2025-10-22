@@ -46,14 +46,13 @@ const AlertComponent = () => {
         z-[9999]`}
       data-severity={openAlert.severity}
     >
-      <div className="flex gap-4 items-center justify-between">
+      <div className="md:flex gap-4 items-center justify-between">
         <span className="mr-2">{severityIcons[openAlert.severity]}</span>
-        <span className="font-Poppins">{openAlert.message}</span>
+        <span className="font-Poppins text-xs  md:text-md">{openAlert.message}</span>
         <button
           className="ml-auto text-lg font-bold"
           onClick={() => setIsVisible(false)}
         >
-          ✖
         </button>
       </div>
     </div>,
