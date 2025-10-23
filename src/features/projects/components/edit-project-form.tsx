@@ -29,7 +29,6 @@ export const EditProjectForm = ({
   onCancel,
   initialValues,
 }: EditProjectFormProps) => {
-  console.log("initialValues", initialValues);
   const router = useRouter();
   const { pageLevelLoader, componentLevelLoader, setComponentLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
