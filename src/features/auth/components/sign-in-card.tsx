@@ -16,6 +16,8 @@ import CircleLoader from "@/components/ui/circleloader";
 import { signInSchema } from "../schema";
 import { useLogin } from "../api/use-login";
 
+import { signUpWithGithub } from "@/lib/oauth";
+
 const SignInCard = () => {
   const { mutate } = useLogin();
 
@@ -92,7 +94,7 @@ const SignInCard = () => {
           Login with Google
         </Button>
 
-        <Button disabled={false} variant="outline" size="lg" className="w-full">
+        <Button  onClick={() => signUpWithGithub() } disabled={false} variant="outline" size="lg" className="w-full">
           <FaGithub className="mr-2 size-5" />
           Login with Github
         </Button>
