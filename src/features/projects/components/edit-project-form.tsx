@@ -14,7 +14,7 @@ import { Project } from "../types";
 import { updateProjectSchema } from "../schema"; 
 import { useUpdateProject } from "../api/use-update-project";
 import { getFormikError } from "@/lib/utils";
-import { ArrowLeftIcon, CopyIcon } from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import { useConfirm } from "@/hooks/use-confirm";
 import Input from "@/components/ui/input";
 import { createOrUpdateProjectControls } from "@/constants/projectsControls";

@@ -221,7 +221,6 @@ const app = new Hono()
     async (c) => {
       try {
         const databases = c.get("databases");
-        const storage = c.get("storage");
         const user = c.get("user");
 
         if (!user) {
@@ -256,7 +255,6 @@ const app = new Hono()
     async (c) => {
       try {
         const databases = c.get("databases");
-        const storage = c.get("storage");
         const user = c.get("user");
 
         if (!user) {

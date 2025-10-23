@@ -8,7 +8,6 @@ import DottedSeparator from "@/components/ui/dotted-separator";
 import Input from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/ui/circleloader";
-import { useCreateTasks } from "../api/use-create-tasks";
 import { createTaskSchema } from "../schema";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { createOrUpdateTaskControls } from "@/constants/tasksControl";
@@ -78,9 +77,9 @@ export const EditTaskForm = ({
 
   const formik = useFormik<FormValues>({
     initialValues: initialFormValues,
-    enableReinitialize: true, // <- biar form ikut berubah ketika props initialValues berubah
+    enableReinitialize: true,
     validate: (values) => {
-      const { workspaceId, ...valuesToValidate } = values;
+      const { ...valuesToValidate } = values;
       const result = createTaskSchema
         .omit({ workspaceId: true, description: true })
         .safeParse(valuesToValidate);

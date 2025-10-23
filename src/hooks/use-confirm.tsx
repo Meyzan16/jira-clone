@@ -8,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { resolve } from "path";
-import { set } from "zod";
 import { GlobalContext } from "@/app/context";
 import CircleLoader from "@/components/ui/circleloader";
 
@@ -17,7 +15,7 @@ export const useConfirm = (
   title: string,
   message: string
 ): [() => JSX.Element, () => Promise<unknown>] => {
-  const { pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
+  const { pageLevelLoader } = useContext(GlobalContext)!;
 
   const [promise, setPromise] = useState<{
     resolve: (value: boolean) => void;
@@ -35,7 +33,7 @@ export const useConfirm = (
 
   const handleConfirm = () => {
     promise?.resolve(true);
-    handleClose;
+    handleClose();
   };
 
   const handleCancel = () => {

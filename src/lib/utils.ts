@@ -1,5 +1,4 @@
 
-import { useMemo } from "react";
 
 export function generateInviteCode(length:number) {
     const characters = "ABCDEFGHIJKLMNOPWRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

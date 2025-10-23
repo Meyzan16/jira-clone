@@ -31,7 +31,7 @@ export const JoinWorkspaceForm = ({
   const workspaceId = useWorkspaceId();
   const inviteCode = useInviteCode();
   const { mutate } = useJoinWorkspace();
-  const { pageLevelLoader, setPageLevelLoader, setOpenAlert } = useContext(GlobalContext)!;
+  const { pageLevelLoader, setPageLevelLoader } = useContext(GlobalContext)!;
 
   const onSubmit = () => {
     setPageLevelLoader(true);

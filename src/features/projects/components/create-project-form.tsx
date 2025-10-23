@@ -23,7 +23,7 @@ interface createProjectFormProps {
 export const CreateProjectForm = ({ onCancel }: createProjectFormProps) => {
   const workspaceId = useWorkspaceId();
   const router = useRouter();
-  const { pageLevelLoader, setComponentLevelLoader , componentLevelLoader } = useContext(GlobalContext)!;
+  const { setComponentLevelLoader , componentLevelLoader } = useContext(GlobalContext)!;
 
   const { mutate } = useCreateProject();
 

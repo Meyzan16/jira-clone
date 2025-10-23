@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import DottedSeparator from '@/components/ui/dotted-separator';
 import { useGetMembers } from '@/features/members/api/use-get-members';
 import { MemberAvatar } from '@/features/members/components/member-avatar';
-import { Member, MemberRole } from '@/features/members/types';
+import { Member } from '@/features/members/types';
 import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
 import { useCreateProjectModal } from '@/features/projects/hooks/use-create-project-modal';

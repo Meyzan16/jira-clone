@@ -8,7 +8,6 @@ import DottedSeparator from "@/components/ui/dotted-separator";
 import Input from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/ui/circleloader";
-import { useRouter } from "next/navigation";
 
 import { useCreateTasks } from "../api/use-create-tasks";
 import { createTaskSchema } from "../schema";
@@ -33,7 +32,7 @@ export const CreateTaskForm = ({
   const { setComponentLevelLoader, componentLevelLoader } =
     useContext(GlobalContext)!;
 
-  const { mutate, isPending } = useCreateTasks();
+  const { mutate } = useCreateTasks();
 
   const formik = useFormik({
     initialValues: {
@@ -46,7 +45,7 @@ export const CreateTaskForm = ({
       projectId: "",
     },
     validate: (values) => {
-      const { workspaceId, ...valuesToValidate } = values;
+      const { ...valuesToValidate } = values;
       const result = createTaskSchema
         .omit({ workspaceId: true })
         .safeParse(valuesToValidate);

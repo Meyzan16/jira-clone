@@ -4,7 +4,7 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id"
 import { DatePicker } from "@/components/ui/date-picker";
 
 import { SelectWorkspace, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select-plus-images";
-import { FolderIcon, ListCheckIcon, ListChecksIcon, UserIcon } from "lucide-react";
+import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { TaskPriority, TaskStatus } from "../types";
 import { taskPriorityOptions, taskStatusOptions } from "@/utility/convert-options";

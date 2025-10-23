@@ -1,7 +1,6 @@
 "use client";
 
 import { FC, ChangeEvent } from "react";
-import { MemberAvatar } from "@/features/members/components/member-avatar";
 
 interface OptionItem {
   id: string;
@@ -27,7 +26,7 @@ const SelectComponent: FC<InterfaceSelect> = ({
   errors,
   touched,
 }) => {
-  const selectedOption = options.find((item) => item.id === value);
+  // const selectedOption = options.find((item) => item.id === value);
 
   return (
     <div className="relative space-y-2">

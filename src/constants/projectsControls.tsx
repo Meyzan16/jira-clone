@@ -1,8 +1,3 @@
-interface Option {
-    id: string;
-    label: string;
-}
-
 
 interface Props {
     id: string;

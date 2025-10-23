@@ -1,22 +1,17 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
 import {
   ExternalLinkIcon,
-  MoreHorizontal,
   PencilIcon,
   TrashIcon,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { useConfirm } from "@/hooks/use-confirm";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -52,7 +47,7 @@ export const TaskActions = ({ id, projectId, children }: TaskActionProps) => {
 
   useEffect(() => {
     setPageLevelLoader(isPending);
-  }, [isPending]);
+  }, [isPending, setPageLevelLoader]);
 
 
   const onDelete = async () => {

@@ -1,4 +1,3 @@
-import { Project } from "@/features/projects/types";
 import { TaskStatus } from "../types";
 import { twMerge } from "tailwind-merge";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
@@ -36,7 +35,11 @@ export const EventCard = ({ title, project, assignee, status, priority, id }: Ev
     return (
         <div className="px-2">
             <div onClick={onClick} className={twMerge("p-1.5 text-xs bg-white text-primary border rounded-md  border-l-4 flex flex-col gap-y-1.5 cursor-pointer hover:opacity-75 transition", colorMap[status])}>
-                <p>{title}</p>
+                
+                <div className="flex justify-between gap-2">
+                    <p>{title}</p>
+                    <p className="text-xs md:text-md rounded-lg text-primarygreen ">({priority})</p>
+                </div>
                 <div className="flex items-center gap-x-1">
                     <MemberAvatar 
                         className="size-6"

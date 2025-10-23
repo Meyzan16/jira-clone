@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
-import { TaskPriority, TaskStatus } from "../types";
 
 interface UseGetTasksProps {
     taskId: string;
